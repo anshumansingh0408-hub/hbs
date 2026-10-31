@@ -92,14 +92,22 @@
     </header>
 
     <div class="video-wrapper">
-      <img src="ofrenda_viva_demo.webp" alt="Ofrenda Viva Walkthrough Demo" class="demo-video" />
+      <video controls autoplay loop muted playsinline class="demo-video">
+        <source src="ofrenda_viva_demo.mp4" type="video/mp4">
+        Tu navegador no soporta el elemento de video.
+      </video>
     </div>
 
     <div class="controls">
-      <span>Animación y captura en tiempo real de la sesión interactiva</span>
-      <a href="ofrenda_viva_demo.webp" download="ofrenda_viva_demo.webp" class="btn-download">
-        ⬇️ Descargar archivo WebP local
-      </a>
+      <span>Demostración de alta fidelidad H.264 (29.7s, 1080p compatible, 10 FPS)</span>
+      <div style="display: flex; gap: 10px;">
+        <a href="ofrenda_viva_demo.mp4" download="ofrenda_viva_demo.mp4" class="btn-download">
+          🎬 Descargar Video .MP4
+        </a>
+        <a href="ofrenda_viva_demo.webp" download="ofrenda_viva_demo.webp" class="btn-download" style="background: rgba(255,255,255,0.15); color: #fff; box-shadow: none;">
+          🖼️ WebP
+        </a>
+      </div>
     </div>
   </div>
 </body>

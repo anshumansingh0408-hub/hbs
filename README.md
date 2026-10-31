@@ -19,6 +19,15 @@ In traditional Mexican heritage, an *ofrenda* is a sacred three-tiered altar cre
 
 ---
 
+## 🎬 Demo Video & Walkthrough
+
+A complete high-fidelity walkthrough demonstration of Ofrenda Viva is available directly in this repository:
+- **MP4 Video File**: [`ofrenda_viva_demo.mp4`](file:///c:/Users/Admin/OneDrive/Desktop/hbs5/ofrenda_viva_demo.mp4) (H.264, 1080p compatible, 29.7s walkthrough)
+- **Interactive Player**: [`play_demo.html`](file:///c:/Users/Admin/OneDrive/Desktop/hbs5/play_demo.html) (Single-click local browser player with HTML5 controls and direct downloads)
+- **Remotion Video Composition**: Located in [`video/`](file:///c:/Users/Admin/OneDrive/Desktop/hbs5/video) for programmatic 60 FPS motion graphics rendering.
+
+---
+
 ## 🏛️ System Architecture
 
 ```mermaid
