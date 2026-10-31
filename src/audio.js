@@ -1,4 +1,4 @@
-// Procedural Web Audio API Soundscape for Ofrenda Viva
+// Procedural Web Audio API Soundscape & Ethereal Speech Synthesizer for Ofrenda Viva
 // 100% Offline, Zero external audio assets, Pure algorithmic synthesis
 
 class SanctuaryAudio {
@@ -10,6 +10,7 @@ class SanctuaryAudio {
     this.crackleNode = null;
     this.windNode = null;
     this.masterGain = null;
+    this.isSpeaking = false;
   }
 
   init() {
@@ -22,9 +23,9 @@ class SanctuaryAudio {
   }
 
   setVolume(val) {
-    this.volume = Math.max(0, Math.min(1, val));
+    this.volume = Math.max(0, Math.min(1, parseFloat(val)));
     if (this.masterGain && this.ctx) {
-      this.masterGain.gain.linearRampToValueAtTime(this.volume, this.ctx.currentTime + 0.1);
+      this.masterGain.gain.linearRampToValueAtTime(this.volume, this.ctx.currentTime + 0.05);
     }
   }
 
@@ -65,7 +66,7 @@ class SanctuaryAudio {
     }
   }
 
-  // Synthesize soft candle chime (Tibetan singing bowl / brass chime)
+  // Resonant crystal / brass bowl chime on lighting candles
   playChime(freq = 528) {
     if (!this.ctx) this.init();
     if (this.ctx.state === 'suspended') this.ctx.resume();
@@ -78,11 +79,11 @@ class SanctuaryAudio {
     osc.type = 'sine';
     osc.frequency.setValueAtTime(freq, t);
     osc2.type = 'triangle';
-    osc2.frequency.setValueAtTime(freq * 1.5, t);
+    osc2.frequency.setValueAtTime(freq * 1.503, t); // slight harmonic beating
 
     gain.gain.setValueAtTime(0.001, t);
-    gain.gain.exponentialRampToValueAtTime(0.25 * this.volume, t + 0.05);
-    gain.gain.exponentialRampToValueAtTime(0.0001, t + 3.0);
+    gain.gain.exponentialRampToValueAtTime(0.28 * this.volume, t + 0.04);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 2.8);
 
     osc.connect(gain);
     osc2.connect(gain);
@@ -90,8 +91,37 @@ class SanctuaryAudio {
 
     osc.start(t);
     osc2.start(t);
-    osc.stop(t + 3.2);
-    osc2.stop(t + 3.2);
+    osc.stop(t + 3.0);
+    osc2.stop(t + 3.0);
+  }
+
+  // Marimba wooden resonance for offering interactions
+  playMarimba(freq = 440) {
+    if (!this.ctx) this.init();
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const filter = this.ctx.createBiquadFilter();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, t);
+
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(freq * 2, t);
+    filter.Q.setValueAtTime(8, t);
+
+    gain.gain.setValueAtTime(0.001, t);
+    gain.gain.linearRampToValueAtTime(0.3 * this.volume, t + 0.008);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.masterGain);
+
+    osc.start(t);
+    osc.stop(t + 0.5);
   }
 
   // Soft plucked acoustic nylon guitar note
@@ -101,13 +131,12 @@ class SanctuaryAudio {
     const filter = this.ctx.createBiquadFilter();
     const gain = this.ctx.createGain();
 
-    // Warm classical guitar timbre with triangle + lowpass decay
     osc.type = 'triangle';
     osc.frequency.setValueAtTime(freq, time);
 
     filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(freq * 4.5, time);
-    filter.frequency.exponentialRampToValueAtTime(freq * 1.2, time + duration);
+    filter.frequency.setValueAtTime(freq * 4.2, time);
+    filter.frequency.exponentialRampToValueAtTime(freq * 1.1, time + duration);
 
     gain.gain.setValueAtTime(0.0001, time);
     gain.gain.linearRampToValueAtTime(velocity * this.volume, time + 0.012);
@@ -125,16 +154,11 @@ class SanctuaryAudio {
   startGuitarArpeggios() {
     if (!this.isPlaying) return;
 
-    // Frequencies for D minor / A Phrygian acoustic chords
     const chordProgressions = [
-      // Dm: D3, A3, D4, F4, A4
-      [146.83, 220.00, 293.66, 349.23, 440.00],
-      // Bb: Bb2, F3, Bb3, D4, F4
-      [116.54, 174.61, 233.08, 293.66, 349.23],
-      // C: C3, G3, C4, E4, G4
-      [130.81, 196.00, 261.63, 329.63, 392.00],
-      // A (Dominant): A2, E3, A3, C#4, E4
-      [110.00, 164.81, 220.00, 277.18, 329.63]
+      [146.83, 220.00, 293.66, 349.23, 440.00], // Dm
+      [116.54, 174.61, 233.08, 293.66, 349.23], // Bb
+      [130.81, 196.00, 261.63, 329.63, 392.00], // C
+      [110.00, 164.81, 220.00, 277.18, 329.63]  // A7
     ];
 
     let chordIdx = 0;
@@ -146,23 +170,21 @@ class SanctuaryAudio {
       chordIdx = (chordIdx + 1) % chordProgressions.length;
       const now = this.ctx.currentTime;
 
-      // Fingerpick pattern: Bass, mid, high, mid, high, mid
       const pattern = [0, 1, 2, 3, 4, 3, 2, 1];
       pattern.forEach((noteIdx, step) => {
         const noteTime = now + (step * 0.42);
         const freq = chord[noteIdx];
-        const vel = noteIdx === 0 ? 0.22 : 0.14 + (Math.random() * 0.04);
+        const vel = noteIdx === 0 ? 0.22 : 0.13 + (Math.random() * 0.04);
         this.pluckGuitar(freq, noteTime, 1.8, vel);
       });
 
-      // Next chord in ~3.6s
       this.guitarTimer = setTimeout(playMeasure, 3600);
     };
 
     playMeasure();
   }
 
-  // Ambient gentle wind
+  // Ambient night breeze
   startWind() {
     if (!this.ctx) return;
     const bufferSize = this.ctx.sampleRate * 2;
@@ -184,7 +206,6 @@ class SanctuaryAudio {
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(0.03 * this.volume, this.ctx.currentTime);
 
-    // Subtle wind swell LFO
     const lfo = this.ctx.createOscillator();
     lfo.frequency.setValueAtTime(0.15, this.ctx.currentTime);
     const lfoGain = this.ctx.createGain();
@@ -208,7 +229,6 @@ class SanctuaryAudio {
     const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
     const output = noiseBuffer.getChannelData(0);
     for (let i = 0; i < bufferSize; i++) {
-      // sparse random clicks for fire crackling
       output[i] = Math.random() > 0.985 ? (Math.random() * 2 - 1) : 0;
     }
 
@@ -229,6 +249,46 @@ class SanctuaryAudio {
 
     crackle.start();
     this.crackleNode = crackle;
+  }
+
+  // Ethereal recitation using Web Speech API (Local & Offline)
+  speakText(text, onEnd = () => {}) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+
+    if (!text || text.trim() === '') return;
+
+    // Filter out emoji icons from spoken words
+    const cleanText = text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}✨💀🕯️🌺🏵️🌸🌼📋📜✉️]/gu, '');
+
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.rate = 0.88; // slightly slower, reverent tempo
+    utterance.pitch = 0.95;
+
+    // Match Spanish or English voice if available
+    const voices = window.speechSynthesis.getVoices();
+    const isSpanish = /el|la|los|las|de|en|y|muerte|mictlan|ofrenda/i.test(cleanText);
+    const matchedVoice = voices.find(v => isSpanish ? v.lang.startsWith('es') : v.lang.startsWith('en'));
+    if (matchedVoice) utterance.voice = matchedVoice;
+
+    this.isSpeaking = true;
+    utterance.onend = () => {
+      this.isSpeaking = false;
+      onEnd();
+    };
+    utterance.onerror = () => {
+      this.isSpeaking = false;
+      onEnd();
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  stopSpeaking() {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      this.isSpeaking = false;
+    }
   }
 }
 
