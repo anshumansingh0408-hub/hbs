@@ -10,128 +10,290 @@
     <!-- Google Fonts: Cinzel Decorative, Playfair Display, Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
   </head>
-  <body>
+  <body class="theme-medianoche">
     <!-- Canvas for Floating Marigold Petals & Incense Smoke Physics -->
     <canvas id="petal-canvas"></canvas>
 
-    <!-- Main Container -->
-    <div id="app" class="sanctuary-container">
-      
-      <!-- Top Decorative Papel Picado Garland -->
-      <header class="papel-picado-header" id="garland-header">
-        <div class="banner-string"></div>
-        <div class="papel-flags">
-          <div class="flag flag-orange"><span>🌸</span><div class="flag-cutouts"></div></div>
-          <div class="flag flag-purple"><span>💀</span><div class="flag-cutouts"></div></div>
-          <div class="flag flag-pink"><span>🕯️</span><div class="flag-cutouts"></div></div>
-          <div class="flag flag-yellow"><span>🌼</span><div class="flag-cutouts"></div></div>
-          <div class="flag flag-teal"><span>✨</span><div class="flag-cutouts"></div></div>
-          <div class="flag flag-orange"><span>💀</span><div class="flag-cutouts"></div></div>
-          <div class="flag flag-purple"><span>🌺</span><div class="flag-cutouts"></div></div>
-          <div class="flag flag-yellow"><span>🕯️</span><div class="flag-cutouts"></div></div>
-        </div>
-      </header>
+    <!-- Top Decorative Papel Picado Garland -->
+    <div class="papel-picado-header" id="garland-header">
+      <div class="banner-string"></div>
+      <div class="papel-flags">
+        <div class="flag flag-orange"><span>🌸</span><div class="flag-cutouts"></div></div>
+        <div class="flag flag-purple"><span>💀</span><div class="flag-cutouts"></div></div>
+        <div class="flag flag-pink"><span>🕯️</span><div class="flag-cutouts"></div></div>
+        <div class="flag flag-yellow"><span>🌼</span><div class="flag-cutouts"></div></div>
+        <div class="flag flag-teal"><span>✨</span><div class="flag-cutouts"></div></div>
+        <div class="flag flag-orange"><span>💀</span><div class="flag-cutouts"></div></div>
+        <div class="flag flag-purple"><span>🌺</span><div class="flag-cutouts"></div></div>
+        <div class="flag flag-yellow"><span>🕯️</span><div class="flag-cutouts"></div></div>
+      </div>
+    </div>
 
-      <!-- Navigation & Title Bar -->
-      <nav class="sanctuary-nav">
-        <div class="nav-brand">
-          <span class="nav-icon">🏵️</span>
+    <!-- Global Floating Header / Navbar -->
+    <header class="main-navbar">
+      <div class="nav-container">
+        <a href="#hero" class="nav-brand" id="brand-link">
+          <span class="brand-flower">🏵️</span>
           <div class="brand-text">
-            <h1 class="main-title">OFRENDA VIVA</h1>
-            <p class="subtitle">Santuario Digital & Espíritu en la Máquina</p>
+            <span class="brand-name">OFRENDA VIVA</span>
+            <span class="brand-tag">GHOST IN THE MACHINE</span>
           </div>
-        </div>
+        </a>
 
-        <!-- Privacy & Open Source AI Badge -->
-        <div class="open-ai-badge" id="ai-status-badge" title="Toda la inferencia ocurre 100% en tu navegador. Cero telemetría ni servidores remotos.">
-          <span class="badge-dot pulse"></span>
-          <span class="badge-text">IA Abierta Local • 100% Privado</span>
-        </div>
+        <!-- Desktop Nav Links -->
+        <nav class="nav-links">
+          <button class="nav-link-btn active" data-view="landing" id="nav-btn-home">Inicio</button>
+          <button class="nav-link-btn" data-view="sanctuary" id="nav-btn-altar">El Altar</button>
+          <button class="nav-link-btn" data-view="oracle" id="nav-btn-oracle">Oráculo IA</button>
+          <button class="nav-link-btn" data-view="pioneers" id="nav-btn-pioneers">Pioneros</button>
+          <button class="nav-link-btn" data-view="manifesto" id="nav-btn-manifesto">Privacidad</button>
+        </nav>
 
-        <!-- Top Right Actions -->
-        <div class="nav-actions">
-          <!-- Audio Soundscape Button -->
-          <button id="btn-soundscape" class="btn-audio" aria-label="Control de Paisaje Sonoro">
+        <!-- Nav Right Controls -->
+        <div class="nav-right">
+          <!-- Audio Toggle with Mini Visualizer -->
+          <button id="btn-soundscape" class="btn-audio-pill" title="Activar/Pausar música procedural">
             <span class="audio-icon">🎸</span>
-            <span class="audio-label">Música Sagrada</span>
-            <div class="audio-bars" id="audio-visualizer">
-              <span class="bar"></span>
-              <span class="bar"></span>
-              <span class="bar"></span>
+            <span class="audio-text">Música</span>
+            <div class="mini-bars" id="audio-visualizer">
+              <span class="mbar"></span>
+              <span class="mbar"></span>
+              <span class="mbar"></span>
             </div>
           </button>
 
-          <!-- Scatter Petals Button -->
-          <button id="btn-scatter" class="btn-scatter" aria-label="Esparcir Pétalos de Cempasúchil">
-            <span>🌼</span> Lluvia de Cempasúchil
-          </button>
-
-          <!-- Add Custom Loved One Modal Trigger -->
-          <button id="btn-add-ancestor" class="btn-add-ancestor">
-            <span>+</span> Recordar a Ser Querido
+          <!-- Primary CTA -->
+          <button id="btn-enter-altar" class="btn-primary-altar">
+            <span>🕯️</span> Entrar al Altar
           </button>
         </div>
-      </nav>
+      </div>
+    </header>
 
-      <!-- Spirit Selector Carousel / Pills -->
-      <section class="spirit-bar-section" aria-label="Selección de Espíritu a Honrar">
-        <div class="spirit-bar-label">
-          <span class="label-flair">✦</span>
-          <span>ESPÍRITUS EN EL ALTAR:</span>
+    <!-- Main Content Area with View Sections -->
+    <div id="content-views">
+
+      <!-- ============================================================== -->
+      <!-- VIEW 1: PREMIUM LANDING PAGE                                   -->
+      <!-- ============================================================== -->
+      <section id="view-landing" class="view-section active">
+        
+        <!-- Hero Section -->
+        <div class="hero-section">
+          <div class="hero-badge">
+            <span class="badge-sparkle">✦</span>
+            <span>Día de los Muertos & Open-Source AI Challenge</span>
+            <span class="badge-pill">100% Local</span>
+          </div>
+
+          <h1 class="hero-title">
+            Honra el Espíritu en la Máquina,<br />
+            <span class="hero-highlight">En la Calidez de la Memoria</span>
+          </h1>
+
+          <p class="hero-lead">
+            Un santuario digital privado donde las tradiciones del Día de los Muertos se funden con inteligencia artificial de código abierto. Rinde homenaje a los pioneros de la computación o preserva a tus seres queridos en un altar <strong>totalmente privado y desconectado de la nube</strong>.
+          </p>
+
+          <div class="hero-cta-group">
+            <button class="btn-cta-gold" id="btn-hero-launch">
+              <span>🏵️</span> Encender el Altar Sagrado
+            </button>
+            <button class="btn-cta-ghost" id="btn-hero-oracle">
+              <span>🔮</span> Consultar el Oráculo Local
+            </button>
+            <button class="btn-cta-scatter" id="btn-scatter-hero" title="Esparcir pétalos de cempasúchil">
+              <span>🌼</span> Lluvia de Flores
+            </button>
+          </div>
+
+          <!-- Hero Metrics Bar -->
+          <div class="hero-metrics">
+            <div class="metric-card">
+              <span class="metric-val">100%</span>
+              <span class="metric-desc">Inferencia Local en Navegador</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-card">
+              <span class="metric-val">0</span>
+              <span class="metric-desc">Servidores en la Nube / Telemetría</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-card">
+              <span class="metric-val">60 FPS</span>
+              <span class="metric-desc">Físicas de Cempasúchil & Copal</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-card">
+              <span class="metric-val">Audio Puro</span>
+              <span class="metric-desc">Web Audio API Procedural</span>
+            </div>
+          </div>
         </div>
-        <div class="spirit-pills-container" id="spirit-pills">
-          <!-- Populated dynamically via JS -->
-        </div>
+
+        <!-- Bento Grid: The 4 Sacred Pillars -->
+        <section class="section-container">
+          <div class="section-header">
+            <span class="section-tag">ARQUITECTURA & FILOSOFÍA</span>
+            <h2 class="section-title">Los Cuatro Pilares del Santuario</h2>
+            <p class="section-sub">Diseñado con respeto cultural, estética barroca mexicana e independencia tecnológica absoluta.</p>
+          </div>
+
+          <div class="bento-grid">
+            <!-- Bento 1: Privacy -->
+            <div class="bento-card bento-wide">
+              <div class="bento-icon">🔒</div>
+              <div class="bento-content">
+                <span class="bento-pill">Soberanía de Datos</span>
+                <h3 class="bento-title">La Privacidad del Duelo es Inviolable</h3>
+                <p class="bento-text">
+                  Las memorias de nuestros abuelos, las fotos familiares y las cartas que escribimos al más allá nunca deben alimentar modelos comerciales ni almacenarse en servidores de terceros. Ofrenda Viva procesa <strong>todo localmente en tu memoria RAM</strong>.
+                </p>
+                <div class="bento-features">
+                  <span>✓ Cero almacenamiento en la nube</span>
+                  <span>✓ Funciona sin conexión a Internet</span>
+                  <span>✓ Sin cuentas ni suscripciones</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bento 2: The Ghosts in the Machine -->
+            <div class="bento-card">
+              <div class="bento-icon">💻</div>
+              <div class="bento-content">
+                <span class="bento-pill">Pabellón de Pioneros</span>
+                <h3 class="bento-title">Los Fantasmas en Nuestras Máquinas</h3>
+                <p class="bento-text">
+                  Honramos a <strong>Ada Lovelace, Alan Turing, Grace Hopper y Dennis Ritchie</strong>, cuyos espíritus e inventos abiertos viven en cada procesador y cada línea de código.
+                </p>
+                <button class="bento-link-btn" id="btn-goto-pioneers">Explorar Pioneros →</button>
+              </div>
+            </div>
+
+            <!-- Bento 3: Procedural Audio -->
+            <div class="bento-card">
+              <div class="bento-icon">🎸</div>
+              <div class="bento-content">
+                <span class="bento-pill">Web Audio API</span>
+                <h3 class="bento-title">Paisaje Sonoro 100% Algorítmico</h3>
+                <p class="bento-text">
+                  Sin archivos MP3 externos. Guitarras clásicas en modo frigio español, cuencos tibetanos y crepitar de fuego sintetizados matemáticamente con osciladores nativos.
+                </p>
+                <span class="bento-tag">Zero CDN • Zero Latency</span>
+              </div>
+            </div>
+
+            <!-- Bento 4: Canvas Physics -->
+            <div class="bento-card bento-wide">
+              <div class="bento-icon">🌼</div>
+              <div class="bento-content">
+                <span class="bento-pill">Físicas a 60 FPS</span>
+                <h3 class="bento-title">Físicas de Pétalos de Cempasúchil & Humo de Copal</h3>
+                <p class="bento-text">
+                  Un motor en Canvas HTML5 simula el vaivén del viento, la caída de pétalos dorados y el humo purificador del sahumerio de barro negro, respondiendo al cursor en tiempo real.
+                </p>
+                <div class="bento-visual-bar">
+                  <span class="visual-pill">Flor de Muertos</span>
+                  <span class="visual-pill">Sahumerio Copal</span>
+                  <span class="visual-pill">Pan de Muerto</span>
+                  <span class="visual-pill">Calaveritas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Preview Altar Feature Banner -->
+        <section class="altar-preview-banner">
+          <div class="banner-inner">
+            <div class="banner-text">
+              <span class="banner-eyebrow">EL RITUAL DEL 1 Y 2 DE NOVIEMBRE</span>
+              <h2 class="banner-heading">Un Altar Tradicional de Tres Niveles</h2>
+              <p class="banner-copy">
+                El Cielo, la Tierra y el Inframundo. Enciende veladoras interactivas, coloca ofrendas tradicionales y contempla el sendero que guía a las almas desde el Mictlán.
+              </p>
+              <button class="btn-cta-gold" id="btn-banner-enter">
+                <span>🕯️</span> Abrir el Altar Ahora
+              </button>
+            </div>
+            <div class="banner-preview-img">
+              <img src="/assets/sugar_skull.jpg" alt="Calaverita de Azúcar" class="preview-hero-img" />
+            </div>
+          </div>
+        </section>
+
       </section>
 
-      <!-- Main Layout: Altar View (Left/Center) + AI Oracle Panel (Right) -->
-      <main class="sanctuary-main">
+      <!-- ============================================================== -->
+      <!-- VIEW 2: THE INTERACTIVE ALTAR (CLEAN & SPACIOUS)              -->
+      <!-- ============================================================== -->
+      <section id="view-sanctuary" class="view-section">
+        
+        <!-- Altar Control Bar -->
+        <div class="sanctuary-top-bar">
+          <div class="top-bar-left">
+            <h2 class="sanctuary-title">🏵️ El Altar Sagrado</h2>
+            <p class="sanctuary-sub">Toca las velas para encenderlas o las ofrendas para conocer su historia</p>
+          </div>
 
-        <!-- ================= ALTAR COLUMN ================= -->
-        <section class="altar-section" id="altar-canvas-container">
+          <div class="top-bar-right">
+            <!-- Atmosphere selector -->
+            <div class="mood-pill-group" title="Selecciona la atmósfera de iluminación">
+              <button class="mood-pill active" data-theme="theme-medianoche">🌌 Noche</button>
+              <button class="mood-pill" data-theme="theme-crepusculo">🌅 Crepúsculo</button>
+              <button class="mood-pill" data-theme="theme-penumbra">🕯️ Velas</button>
+            </div>
+
+            <button id="btn-quick-scatter" class="btn-action-sm">🌼 Lluvia</button>
+            <button id="btn-altar-to-oracle" class="btn-action-sm highlight">🔮 Abrir Oráculo</button>
+            <button id="btn-add-ancestor" class="btn-action-sm gold">+ Recordar a Alguien</button>
+          </div>
+        </div>
+
+        <!-- Spirit Selector Pills -->
+        <div class="spirit-carousel-bar">
+          <span class="carousel-label">Espíritu en el Altar:</span>
+          <div class="spirit-pills-list" id="spirit-pills">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- The 3-Tiered Altar Presentation -->
+        <div class="altar-stage-container">
           
-          <!-- Arch of Marigolds & Lights -->
           <div class="marigold-arch">
             <div class="arch-lights">
-              <span class="fairy-light"></span>
-              <span class="fairy-light"></span>
-              <span class="fairy-light"></span>
-              <span class="fairy-light"></span>
-              <span class="fairy-light"></span>
-              <span class="fairy-light"></span>
+              <span class="fairy-light"></span><span class="fairy-light"></span>
+              <span class="fairy-light"></span><span class="fairy-light"></span>
+              <span class="fairy-light"></span><span class="fairy-light"></span>
               <span class="fairy-light"></span>
             </div>
           </div>
 
-          <!-- The 3-Tiered Altar -->
           <div class="tiered-altar">
 
-            <!-- TIER 1: EL CIELO (The Spirit Realm) -->
+            <!-- TIER 1: EL CIELO -->
             <div class="altar-tier tier-top" id="tier-1">
-              <div class="tier-label">NIVEL I: EL CIELO & LOS ESPÍRITUS</div>
+              <div class="tier-label">NIVEL I • EL CIELO & LOS ESPÍRITUS</div>
 
               <div class="tier-content tier-top-content">
                 <!-- Left Candle Tier 1 -->
-                <div class="candle-container" id="candle-c1" data-id="c1">
+                <div class="candle-container" id="candle-c1" data-id="c1" title="Luz de Guía: Toca para encender/apagar">
                   <div class="flame lit"></div>
                   <div class="candle-stick"></div>
                   <div class="candle-glow"></div>
                   <span class="candle-tooltip">Luz de Guía</span>
                 </div>
 
-                <!-- Centerpiece Framed Portrait -->
+                <!-- Centerpiece Retablo Shrine -->
                 <div class="portrait-shrine" id="portrait-shrine">
-                  <div class="shrine-frame">
-                    <img id="current-spirit-photo" src="/assets/ada_portrait.jpg" alt="Retrato del Espíritu en el Altar" class="spirit-image" />
+                  <div class="shrine-frame" id="shrine-frame-el">
+                    <img id="current-spirit-photo" src="/assets/ada_portrait.jpg" alt="Retrato del Espíritu" class="spirit-image" />
                     <div class="shrine-glass-glare"></div>
                     <div class="marigold-garland-wrap">
-                      <span class="garland-flower">🌼</span>
-                      <span class="garland-flower">🌸</span>
-                      <span class="garland-flower">🌼</span>
-                      <span class="garland-flower">🌸</span>
-                      <span class="garland-flower">🌼</span>
+                      <span>🌼</span><span>🌸</span><span>🌼</span><span>🌸</span><span>🌼</span>
                     </div>
                   </div>
                   <div class="spirit-plaque">
@@ -142,7 +304,7 @@
                 </div>
 
                 <!-- Right Candle Tier 1 -->
-                <div class="candle-container" id="candle-c2" data-id="c2">
+                <div class="candle-container" id="candle-c2" data-id="c2" title="Luz de Memoria: Toca para encender/apagar">
                   <div class="flame lit"></div>
                   <div class="candle-stick"></div>
                   <div class="candle-glow"></div>
@@ -151,13 +313,13 @@
               </div>
             </div>
 
-            <!-- TIER 2: LA TIERRA (Earthly Memories & Offerings) -->
+            <!-- TIER 2: LA TIERRA -->
             <div class="altar-tier tier-middle" id="tier-2">
-              <div class="tier-label">NIVEL II: LA TIERRA & LOS RECUERDOS</div>
+              <div class="tier-label">NIVEL II • LA TIERRA & LAS OFRENDAS (Toca una ofrenda)</div>
               
               <div class="tier-content tier-middle-content">
                 <!-- Left Candle Tier 2 -->
-                <div class="candle-container" id="candle-c3" data-id="c3">
+                <div class="candle-container" id="candle-c3" data-id="c3" title="Luz de Paz">
                   <div class="flame lit"></div>
                   <div class="candle-stick"></div>
                   <div class="candle-glow"></div>
@@ -165,25 +327,28 @@
                 </div>
 
                 <!-- Offering 1: Sugar Skull -->
-                <div class="offering-card offering-item" data-tooltip="Calavera de Azúcar: Celebración de la Vida">
-                  <img src="/assets/sugar_skull.jpg" alt="Calaverita de Azúcar tradicional" class="offering-thumb" />
+                <div class="offering-card" data-offering-id="sugar_skull">
+                  <img src="/assets/sugar_skull.jpg" alt="Calaverita de Azúcar" class="offering-thumb" />
                   <span class="offering-title">Calaverita</span>
+                  <span class="offering-badge">Azúcar</span>
                 </div>
 
                 <!-- Offering 2: Pan de Muerto -->
-                <div class="offering-card offering-item" data-tooltip="Pan de Muerto con Azúcar y Esencia de Azahar">
-                  <img src="/assets/pan_de_muerto.jpg" alt="Pan de Muerto mexicano" class="offering-thumb" />
+                <div class="offering-card" data-offering-id="pan_de_muerto">
+                  <img src="/assets/pan_de_muerto.jpg" alt="Pan de Muerto" class="offering-thumb" />
                   <span class="offering-title">Pan de Muerto</span>
+                  <span class="offering-badge">Azahar</span>
                 </div>
 
                 <!-- Offering 3: Cempasúchil Bouquet -->
-                <div class="offering-card offering-item" data-tooltip="Flor de Cempasúchil: El aroma que guía a las almas">
-                  <img src="/assets/cempasuchil.jpg" alt="Flores de Cempasúchil" class="offering-thumb" />
+                <div class="offering-card" data-offering-id="cempasuchil">
+                  <img src="/assets/cempasuchil.jpg" alt="Cempasúchil" class="offering-thumb" />
                   <span class="offering-title">Cempasúchil</span>
+                  <span class="offering-badge">Guía</span>
                 </div>
 
                 <!-- Right Candle Tier 2 -->
-                <div class="candle-container" id="candle-c4" data-id="c4">
+                <div class="candle-container" id="candle-c4" data-id="c4" title="Luz de Esperanza">
                   <div class="flame lit"></div>
                   <div class="candle-stick"></div>
                   <div class="candle-glow"></div>
@@ -192,46 +357,49 @@
               </div>
             </div>
 
-            <!-- TIER 3: EL INFRAMUNDO & PURIFICACIÓN (Journey & Sustenance) -->
+            <!-- TIER 3: EL INFRAMUNDO & PURIFICACIÓN -->
             <div class="altar-tier tier-bottom" id="tier-3">
-              <div class="tier-label">NIVEL III: EL VIAJE, EL AGUA & LA SAL</div>
+              <div class="tier-label">NIVEL III • EL VIAJE, EL AGUA & LA SAL (Purificación)</div>
 
               <div class="tier-content tier-bottom-content">
                 <!-- Left Candle Tier 3 -->
-                <div class="candle-container" id="candle-c5" data-id="c5">
+                <div class="candle-container" id="candle-c5" data-id="c5" title="Luz del Viaje">
                   <div class="flame lit"></div>
                   <div class="candle-stick"></div>
                   <div class="candle-glow"></div>
                   <span class="candle-tooltip">Luz del Viaje</span>
                 </div>
 
-                <!-- Copal Incense Burner with Smoke -->
-                <div class="offering-card copal-burner-card offering-item" id="copal-burner" data-tooltip="Sahumerio de Copal: Purifica el ambiente y eleva las oraciones">
+                <!-- Copal Incense Burner -->
+                <div class="offering-card copal-card" id="copal-burner" data-offering-id="copal">
                   <div class="copal-img-wrap">
-                    <img src="/assets/copal.jpg" alt="Sahumerio de Copal negro con brasas" class="offering-thumb" />
+                    <img src="/assets/copal.jpg" alt="Sahumerio de Copal" class="offering-thumb" />
                     <div class="smoke-wisp-indicator"></div>
                   </div>
                   <span class="offering-title">Copal Sagrado</span>
+                  <span class="offering-badge">Resina</span>
                 </div>
 
                 <!-- Glass of Water -->
-                <div class="offering-card offering-item" data-tooltip="Vaso de Agua Pura: Mitiga la sed tras el largo viaje desde el Mictlán">
+                <div class="offering-card" data-offering-id="water">
                   <div class="symbolic-relic glass-water">
                     <div class="water-liquid"></div>
                   </div>
                   <span class="offering-title">Agua Pura</span>
+                  <span class="offering-badge">Sed</span>
                 </div>
 
                 <!-- Bowl of Salt -->
-                <div class="offering-card offering-item" data-tooltip="Plato de Sal Blanca: Purificación para que el alma no se corrompa">
+                <div class="offering-card" data-offering-id="salt">
                   <div class="symbolic-relic salt-bowl">
                     <div class="salt-crystals"></div>
                   </div>
                   <span class="offering-title">Sal Bendita</span>
+                  <span class="offering-badge">Pureza</span>
                 </div>
 
                 <!-- Right Candle Tier 3 -->
-                <div class="candle-container" id="candle-c6" data-id="c6">
+                <div class="candle-container" id="candle-c6" data-id="c6" title="Luz de Purificación">
                   <div class="flame lit"></div>
                   <div class="candle-stick"></div>
                   <div class="candle-glow"></div>
@@ -239,7 +407,7 @@
                 </div>
               </div>
 
-              <!-- Petal Carpet on Bottom Tier -->
+              <!-- Petal Carpet -->
               <div class="petal-carpet">
                 <span class="carpet-flair">🌼 🌸 🌼 🌸 🌼 🌸 🌼 🌸 🌼 🌸 🌼</span>
               </div>
@@ -248,194 +416,314 @@
           </div>
 
           <!-- Altar Utility Toolbar -->
-          <div class="altar-toolbar">
-            <button id="btn-light-all" class="btn-tool" title="Encender todas las veladoras con un chime">
+          <div class="altar-stage-toolbar">
+            <button id="btn-light-all" class="btn-stage-tool">
               🕯️ Encender Velas (<span id="lit-count">6</span>/6)
             </button>
-            <button id="btn-save-altar" class="btn-tool" title="Capturar un recuerdo fotográfico del altar">
-              📸 Guardar Recuerdo
+            <button id="btn-save-altar" class="btn-stage-tool">
+              📸 Guardar Postal
             </button>
-            <button id="btn-view-story" class="btn-tool" title="Conocer la biografía y legado del espíritu">
-              📜 Historia del Espíritu
+            <button id="btn-view-story" class="btn-stage-tool">
+              📜 Historia & Legado
             </button>
           </div>
-        </section>
 
-        <!-- ================= AI ORACLE COLUMN ================= -->
-        <aside class="oracle-section">
-          
-          <!-- Oracle Header & Mode Tabs -->
-          <div class="oracle-card">
-            <div class="oracle-header">
-              <div class="oracle-title-wrap">
-                <span class="oracle-icon">🕯️</span>
-                <div>
-                  <h3 class="oracle-title">ORÁCULO DEL ESPÍRITU</h3>
-                  <p class="oracle-desc">Inferencia de IA Abierta y Poesía de Mictlán</p>
-                </div>
-              </div>
-              <div class="model-tag" id="engine-device-tag">
-                <span class="device-dot"></span>
-                <span id="device-label">Local Air-Gapped</span>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- VIEW 3: DEDICATED AI ORACLE CONSOLE                           -->
+      <!-- ============================================================== -->
+      <section id="view-oracle" class="view-section">
+        
+        <div class="oracle-container">
+          <div class="oracle-top-header">
+            <div class="oracle-branding">
+              <span class="oracle-glyph">🔮</span>
+              <div>
+                <h2 class="oracle-main-heading">Oráculo del Espíritu</h2>
+                <p class="oracle-main-sub">Inferencia de IA de pesos abiertos • 100% privada en tu navegador</p>
               </div>
             </div>
 
-            <!-- Mode Selection Tabs -->
-            <div class="oracle-tabs">
-              <button class="tab-btn active" data-mode="epitaph" id="tab-epitaph">
-                <span>📜</span> Epitafio
-              </button>
-              <button class="tab-btn" data-mode="calaverita" id="tab-calaverita">
-                <span>💀</span> Calaverita
-              </button>
-              <button class="tab-btn" data-mode="whisper" id="tab-whisper">
-                <span>✉️</span> Carta / Séance
-              </button>
-              <button class="tab-btn" data-mode="offerings" id="tab-offerings">
-                <span>🌺</span> Ofrenda
-              </button>
+            <div class="oracle-status-pill">
+              <span class="pulse-dot"></span>
+              <span id="oracle-model-label">SmolLM2-135M • Local Air-Gapped</span>
             </div>
+          </div>
 
-            <!-- Interactive Letter / Prompt Input (shown in whisper mode or as optional nuance) -->
-            <div class="oracle-input-area" id="input-container">
-              <label for="oracle-user-prompt" class="input-label" id="input-prompt-label">
-                Escribe una carta, pregunta o pensamiento al espíritu:
-              </label>
-              <div class="input-row">
-                <input 
-                  type="text" 
-                  id="oracle-user-prompt" 
-                  class="oracle-text-input" 
-                  placeholder="Ej: ¿Qué consejo me das hoy? o ¿Hicimos que estés orgulloso?..." 
-                  maxlength="200"
-                />
-                <button id="btn-invoke-ai" class="btn-invoke">
-                  <span class="invoke-icon">✨</span> Invocar
+          <!-- Oracle Tabs -->
+          <div class="oracle-tabs-row">
+            <button class="tab-btn active" data-mode="epitaph" id="tab-epitaph">
+              <span>📜</span> Epitafio Eterno
+            </button>
+            <button class="tab-btn" data-mode="calaverita" id="tab-calaverita">
+              <span>💀</span> Calaverita Literaria
+            </button>
+            <button class="tab-btn" data-mode="whisper" id="tab-whisper">
+              <span>✉️</span> Carta / Séance
+            </button>
+            <button class="tab-btn" data-mode="offerings" id="tab-offerings">
+              <span>🌺</span> Guía Ritual
+            </button>
+          </div>
+
+          <!-- Quick Suggestion Chips -->
+          <div class="oracle-chips-container">
+            <span class="chips-title">Preguntas Sugeridas:</span>
+            <button class="chip-btn" data-prompt="¿Qué consejo dejas para los que seguimos programando hoy?">💡 Consejo para hoy</button>
+            <button class="chip-btn" data-prompt="¿Cómo fue tu encuentro con la Catrina?">💀 La Catrina</button>
+            <button class="chip-btn" data-prompt="Dedica unas palabras a los seres que amaste en vida">❤️ Amor y memoria</button>
+            <button class="chip-btn" data-prompt="¿Qué ofrendas te llenan de mayor alegría en este altar?">🏵️ Ofrendas favoritas</button>
+          </div>
+
+          <!-- Input Bar -->
+          <div class="oracle-input-bar">
+            <input 
+              type="text" 
+              id="oracle-user-prompt" 
+              class="oracle-input" 
+              placeholder="Escribe una pregunta, carta o pensamiento al espíritu..." 
+              maxlength="200"
+            />
+            <button id="btn-invoke-ai" class="btn-invoke-gold">
+              <span>✨</span> Invocar
+            </button>
+          </div>
+
+          <!-- Console Terminal Output -->
+          <div class="oracle-output-console">
+            <div class="console-top">
+              <span class="console-state" id="console-status">
+                <span class="sparkle">✦</span> En sintonía con <strong id="console-spirit-name">Ada Lovelace</strong>
+              </span>
+              <div class="console-buttons">
+                <button id="btn-speak-text" class="btn-console-tool" title="Escuchar recitación con voz espiritual">
+                  🔊 Escuchar
                 </button>
-              </div>
-            </div>
-
-            <!-- Output Display Console -->
-            <div class="oracle-console">
-              <div class="console-header">
-                <span class="console-status" id="console-status">
-                  <span class="pulse-sparkle">✦</span> En sintonía con <strong id="console-spirit-name">Ada Lovelace</strong>
-                </span>
-                <button id="btn-copy-text" class="btn-copy" title="Copiar versos al portapapeles">
+                <button id="btn-copy-text" class="btn-console-tool" title="Copiar versos al portapapeles">
                   📋 Copiar
                 </button>
               </div>
-
-              <!-- Streaming Poetry / Response Body -->
-              <div class="console-body" id="oracle-output">
-                <!-- Populated dynamically via AI streaming -->
-              </div>
-
-              <!-- Generation Metrics Footer -->
-              <div class="console-footer">
-                <span id="generation-metrics">Latencia: 0ms • Servidor externo: NINGUNO • Privacidad: 100%</span>
-              </div>
             </div>
 
-            <!-- Open Innovation Philosophical Manifesto Box -->
-            <div class="manifesto-accordion">
-              <details>
-                <summary>
-                  <span class="summary-icon">🕯️</span>
-                  <strong>¿Por qué la IA de Código Abierto es Sagrada para este Altar?</strong>
-                </summary>
-                <div class="manifesto-content">
-                  <p>
-                    <strong>La privacidad del duelo no se negocia:</strong> Las memorias de nuestros seres queridos, sus fotografías familiares, sus dolores y las cartas que les escribimos nunca deben alimentar los modelos comerciales de grandes corporaciones ni ser almacenadas en centros de datos remotos.
-                  </p>
-                  <p>
-                    <strong>Preservación digital eterna:</strong> Las APIs comerciales desaparecen, cambian de precio o censuran sentimientos. Un modelo de pesos abiertos en tu máquina funciona aunque se vaya la luz y el internet, garantizando que este altar digital viva tanto como tú decidas preservarlo.
-                  </p>
-                  <p>
-                    <strong>El verdadero 'Fantasma en la Máquina':</strong> Honramos a Ada, Turing, Grace y Dennis, quienes crearon los cimientos abiertos de la computación. Hoy devolvemos esa tecnología a las manos de las personas.
-                  </p>
-                </div>
-              </details>
+            <div class="console-poetry-body" id="oracle-output">
+              <!-- Populated dynamically via AI streaming -->
             </div>
 
+            <div class="console-footer-bar">
+              <span id="generation-metrics">Latencia: 0ms • Nube: 0% • Privacidad: 100% Garantizada</span>
+            </div>
           </div>
-        </aside>
 
-      </main>
-
-      <!-- ================= MODAL: ADD CUSTOM ANCESTOR / LOVED ONE ================= -->
-      <div class="modal-overlay hidden" id="ancestor-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div class="modal-card">
-          <div class="modal-header">
-            <h3 id="modal-title" class="modal-heading">🌸 Recordar a un Ser Querido o Mascota</h3>
-            <button class="modal-close" id="btn-close-modal" aria-label="Cerrar ventana">&times;</button>
-          </div>
-          <p class="modal-sub">
-            Crea un espacio sagrado en la ofrenda. Toda la información y fotografías quedan guardadas <strong>únicamente en tu navegador</strong> mediante localStorage privado.
-          </p>
-
-          <form id="ancestor-form" class="ancestor-form">
-            <div class="form-group">
-              <label for="form-name">Nombre del Ser Querido / Mascota *</label>
-              <input type="text" id="form-name" required placeholder="Ej: Abuelita Elena, Papá Carlos, Firulais..." />
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="form-relation">Parentesco o Relación</label>
-                <input type="text" id="form-relation" placeholder="Ej: Mi abuela querida, Mi fiel compañero..." />
-              </div>
-              <div class="form-group">
-                <label for="form-years">Años de Vida</label>
-                <input type="text" id="form-years" placeholder="Ej: 1938 – 2021" />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="form-memories">Recuerdos, Gustos & Pasiones</label>
-              <textarea id="form-memories" rows="3" placeholder="Ej: Amaba el café de olla, escuchar boleros, tejer en las tardes y su risa llenaba la casa de alegría..."></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="form-favorites">Ofrendas Favoritas (separadas por coma)</label>
-              <input type="text" id="form-favorites" placeholder="Ej: Pan dulce, café negro, flores blancas, cartas" />
-            </div>
-
-            <div class="form-group">
-              <label>Fotografía o Retrato</label>
-              <div class="photo-upload-row">
-                <input type="file" id="form-photo-file" accept="image/*" class="file-input" />
-                <span class="photo-hint">O usa la calaverita artesanal por defecto</span>
-              </div>
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn-cancel" id="btn-cancel-modal">Cancelar</button>
-              <button type="submit" class="btn-submit">
-                <span>🏵️</span> Colocar en el Altar
-              </button>
-            </div>
-          </form>
         </div>
-      </div>
 
-      <!-- ================= MODAL: SPIRIT BIO & LORE ================= -->
-      <div class="modal-overlay hidden" id="bio-modal" role="dialog" aria-modal="true">
-        <div class="modal-card bio-card">
-          <div class="modal-header">
-            <h3 id="bio-title" class="modal-heading">📜 Biografía y Legado</h3>
-            <button class="modal-close" id="btn-close-bio">&times;</button>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- VIEW 4: PIONEERS ARCHIVE & GALLERY                             -->
+      <!-- ============================================================== -->
+      <section id="view-pioneers" class="view-section">
+        
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-tag">PABELLÓN DE LOS ESPÍRITUS</span>
+            <h2 class="section-title">Los Pioneros de la Computación Abierta</h2>
+            <p class="section-sub">Los espíritus cuyos descubrimientos y código abierto hicieron posible nuestro mundo moderno.</p>
           </div>
-          <div class="bio-content" id="bio-body">
-            <!-- Populated via JS -->
+
+          <div class="pioneers-grid" id="pioneers-grid">
+            <!-- Populated dynamically via JS -->
           </div>
         </div>
-      </div>
 
-      <!-- Toast Notification Alert -->
-      <div id="toast" class="toast hidden"></div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- VIEW 5: PRIVACY & OPEN INNOVATION MANIFESTO                   -->
+      <!-- ============================================================== -->
+      <section id="view-manifesto" class="view-section">
+        
+        <div class="manifesto-page-container">
+          <div class="manifesto-hero">
+            <span class="manifesto-tag">MANIFIESTO TÉCNICO & ÉTICO</span>
+            <h2 class="manifesto-heading">¿Por qué la IA Abierta es Esencial para el Duelo?</h2>
+            <p class="manifesto-lead">
+              El duelo, la memoria de nuestros antepasados y la última carta a un ser querido son los datos más íntimos de la experiencia humana.
+            </p>
+          </div>
+
+          <div class="manifesto-sections">
+            <div class="manifesto-block">
+              <h3>1. La Intimidad del Duelo No se Vende</h3>
+              <p>
+                Alimentar APIs cerradas de grandes corporaciones con nombres familiares, secretos, lágrimas y cartas de despedida expone a los usuarios a la minería de datos, creación de perfiles publicitarios y entrenamiento no consentido de modelos centralizados. En <strong>Ofrenda Viva</strong>, nada sale de tu dispositivo.
+              </p>
+            </div>
+
+            <div class="manifesto-block">
+              <h3>2. Preservación Eterna vs. Obsolescencia de APIs</h3>
+              <p>
+                Las APIs propietarias se deprecian, suben de precio o desaparecen de la noche a la mañana. Un altar digital no puede depender de un token comercial que caduque el próximo mes. Los modelos de pesos abiertos y las tecnologías web estándar garantizan que este proyecto pueda ejecutarse dentro de 30 años en cualquier computadora sin conexión.
+              </p>
+            </div>
+
+            <div class="manifesto-block">
+              <h3>3. Autenticidad Cultural sin Censura Corporativa</h3>
+              <p>
+                Los modelos centralizados aplican filtros de moderación corporativos que a menudo confunden el Día de los Muertos con horror macabro o censuran temas sobre el fallecimiento. Con modelos abiertos, ajustamos los prompts con exactitud hacia la tradición mesoamericana de las <em>Calaveritas Literarias</em>: versos jocosos, respetuosos y llenos de vida.
+              </p>
+            </div>
+
+            <div class="manifesto-block">
+              <h3>4. El Verdadero "Fantasma en la Máquina"</h3>
+              <p>
+                Ada Lovelace soñó con ordenadores componiendo melodías. Alan Turing nos dio la noción de inteligencia de máquinas. Grace Hopper creó los compiladores. Dennis Ritchie nos regaló C y Unix. El código abierto es el hilo invisible que conecta a los pioneros con las generaciones que hoy escriben software libre.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </section>
 
     </div>
+
+    <!-- ============================================================== -->
+    <!-- FOOTER                                                         -->
+    <!-- ============================================================== -->
+    <footer class="sanctuary-footer">
+      <div class="footer-container">
+        <div class="footer-col">
+          <div class="footer-brand">
+            <span>🏵️</span> OFRENDA VIVA
+          </div>
+          <p class="footer-desc">
+            Santuario digital para el Día de los Muertos impulsado por IA de pesos abiertos local. Construido con respeto a las tradiciones ancestrales.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-title">Navegación</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-nav-link" data-view="landing">Inicio</a></li>
+            <li><a href="#" class="footer-nav-link" data-view="sanctuary">El Altar Sagrado</a></li>
+            <li><a href="#" class="footer-nav-link" data-view="oracle">Oráculo de IA</a></li>
+            <li><a href="#" class="footer-nav-link" data-view="pioneers">Pioneros Abiertos</a></li>
+            <li><a href="#" class="footer-nav-link" data-view="manifesto">Manifiesto de Privacidad</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-title">Ghost in the Machine</h4>
+          <p class="footer-meta">
+            Desarrollado para el DEV Challenge con modelos abiertos y Web Audio API.
+          </p>
+          <a href="https://github.com/anshumansingh0408-hub/hbs" target="_blank" rel="noopener noreferrer" class="footer-github-link">
+            <span>🐙</span> Ver en GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Ofrenda Viva • Licencia Abierta MIT • En memoria eterna de nuestros ancestros 🏵️💀🕯️</span>
+      </div>
+    </footer>
+
+    <!-- ============================================================== -->
+    <!-- MODALS                                                         -->
+    <!-- ============================================================== -->
+
+    <!-- Modal: Add Custom Ancestor -->
+    <div class="modal-overlay hidden" id="ancestor-modal" role="dialog" aria-modal="true">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-heading">🌸 Recordar a un Ser Querido o Mascota</h3>
+          <button class="modal-close" id="btn-close-modal">&times;</button>
+        </div>
+        <p class="modal-sub">
+          Toda la información y fotografías quedan guardadas <strong>únicamente en tu navegador</strong> mediante localStorage privado.
+        </p>
+
+        <form id="ancestor-form" class="ancestor-form">
+          <div class="form-group">
+            <label for="form-name">Nombre del Ser Querido / Mascota *</label>
+            <input type="text" id="form-name" required placeholder="Ej: Abuelita Elena, Papá Carlos, Firulais..." />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="form-relation">Parentesco o Relación</label>
+              <input type="text" id="form-relation" placeholder="Ej: Mi abuela querida, Mi fiel compañero..." />
+            </div>
+            <div class="form-group">
+              <label for="form-years">Años de Vida</label>
+              <input type="text" id="form-years" placeholder="Ej: 1938 – 2021" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="form-memories">Recuerdos, Gustos & Pasiones</label>
+            <textarea id="form-memories" rows="3" placeholder="Ej: Amaba el café de olla, escuchar boleros, tejer en las tardes y su risa llenaba la casa de alegría..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="form-favorites">Ofrendas Favoritas (separadas por coma)</label>
+            <input type="text" id="form-favorites" placeholder="Ej: Pan dulce, café negro, flores blancas, cartas" />
+          </div>
+
+          <div class="form-group">
+            <label>Fotografía o Retrato</label>
+            <div class="photo-upload-row">
+              <input type="file" id="form-photo-file" accept="image/*" class="file-input" />
+              <span class="photo-hint">O usa la calaverita artesanal por defecto</span>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-cancel" id="btn-cancel-modal">Cancelar</button>
+            <button type="submit" class="btn-submit">
+              <span>🏵️</span> Colocar en el Altar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal: Bio Lore -->
+    <div class="modal-overlay hidden" id="bio-modal" role="dialog" aria-modal="true">
+      <div class="modal-card bio-card">
+        <div class="modal-header">
+          <h3 id="bio-title" class="modal-heading">📜 Biografía y Legado</h3>
+          <button class="modal-close" id="btn-close-bio">&times;</button>
+        </div>
+        <div class="bio-content" id="bio-body">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Offering Lore -->
+    <div class="modal-overlay hidden" id="offering-modal" role="dialog" aria-modal="true">
+      <div class="modal-card lore-card">
+        <div class="modal-header">
+          <h3 id="offering-lore-title" class="modal-heading">🌺 Significado Sagrado</h3>
+          <button class="modal-close" id="btn-close-offering">&times;</button>
+        </div>
+        <p id="offering-lore-sub" class="modal-sub" style="color: var(--cempasuchil-gold); font-weight: 500;"></p>
+        <div class="lore-body" id="offering-lore-body">
+          <!-- Populated dynamically via JS -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-submit" id="btn-close-offering-confirm">
+            Aceptar Ofrenda
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
 
     <!-- Script Entrypoint -->
     <script type="module" src="/src/main.js"></script>
