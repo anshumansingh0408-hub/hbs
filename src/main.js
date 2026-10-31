@@ -1,27 +1,46 @@
 // Main Application Entrypoint for Ofrenda Viva
+// View Management, Interactive Altar, AI Oracle, Pioneers Gallery & Audio
 
 import './style.css';
 import { PetalSystem } from './petals.js';
 import { soundscape } from './audio.js';
-import { spiritRegistry } from './spirits.js';
+import { spiritRegistry, PIONEER_SPIRITS } from './spirits.js';
 import { spiritAI } from './aiEngine.js';
 import { AltarManager } from './altar.js';
 
-// DOM Elements
+// DOM Elements: Canvas & Views
 const canvas = document.getElementById('petal-canvas');
+const viewSections = document.querySelectorAll('.view-section');
+const navLinkButtons = document.querySelectorAll('.nav-link-btn');
+const footerNavLinks = document.querySelectorAll('.footer-nav-link');
+
+// Navigation & Brand
+const brandLink = document.getElementById('brand-link');
+const btnEnterAltar = document.getElementById('btn-enter-altar');
+const btnHeroLaunch = document.getElementById('btn-hero-launch');
+const btnHeroOracle = document.getElementById('btn-hero-oracle');
+const btnScatterHero = document.getElementById('btn-scatter-hero');
+const btnBannerEnter = document.getElementById('btn-banner-enter');
+const btnGotoPioneers = document.getElementById('btn-goto-pioneers');
+const btnAltarToOracle = document.getElementById('btn-altar-to-oracle');
+const btnQuickScatter = document.getElementById('btn-quick-scatter');
+
+// Audio Controls
+const btnSoundscape = document.getElementById('btn-soundscape');
+
+// Altar Elements
 const spiritPillsContainer = document.getElementById('spirit-pills');
 const currentSpiritPhoto = document.getElementById('current-spirit-photo');
 const spiritNameEl = document.getElementById('spirit-name');
 const spiritEpithetEl = document.getElementById('spirit-epithet');
 const spiritDatesEl = document.getElementById('spirit-dates');
 const litCountEl = document.getElementById('lit-count');
+const btnLightAll = document.getElementById('btn-light-all');
+const btnSaveAltar = document.getElementById('btn-save-altar');
+const btnViewStory = document.getElementById('btn-view-story');
+const moodPills = document.querySelectorAll('.mood-pill');
 
-// Audio Controls
-const btnSoundscape = document.getElementById('btn-soundscape');
-const audioVisualizer = document.getElementById('audio-visualizer');
-const btnScatter = document.getElementById('btn-scatter');
-
-// Oracle Controls
+// Oracle Elements
 const oracleOutput = document.getElementById('oracle-output');
 const consoleSpiritName = document.getElementById('console-spirit-name');
 const consoleStatus = document.getElementById('console-status');
@@ -29,12 +48,12 @@ const generationMetrics = document.getElementById('generation-metrics');
 const oracleUserPrompt = document.getElementById('oracle-user-prompt');
 const btnInvokeAi = document.getElementById('btn-invoke-ai');
 const btnCopyText = document.getElementById('btn-copy-text');
+const btnSpeakText = document.getElementById('btn-speak-text');
 const tabButtons = document.querySelectorAll('.tab-btn');
+const quickChips = document.querySelectorAll('.chip-btn');
 
-// Altar Buttons
-const btnLightAll = document.getElementById('btn-light-all');
-const btnSaveAltar = document.getElementById('btn-save-altar');
-const btnViewStory = document.getElementById('btn-view-story');
+// Pioneers Grid
+const pioneersGrid = document.getElementById('pioneers-grid');
 
 // Modals
 const btnAddAncestor = document.getElementById('btn-add-ancestor');
@@ -48,6 +67,13 @@ const btnCloseBio = document.getElementById('btn-close-bio');
 const bioTitle = document.getElementById('bio-title');
 const bioBody = document.getElementById('bio-body');
 
+const offeringModal = document.getElementById('offering-modal');
+const btnCloseOffering = document.getElementById('btn-close-offering');
+const btnCloseOfferingConfirm = document.getElementById('btn-close-offering-confirm');
+const offeringLoreTitle = document.getElementById('offering-lore-title');
+const offeringLoreSub = document.getElementById('offering-lore-sub');
+const offeringLoreBody = document.getElementById('offering-lore-body');
+
 const toast = document.getElementById('toast');
 
 // State
@@ -55,6 +81,7 @@ let petalSystem = null;
 let altarManager = null;
 let activeMode = 'epitaph';
 let isGenerating = false;
+let currentView = 'landing';
 
 // Toast Utility
 function showToast(message, duration = 3000) {
@@ -65,7 +92,46 @@ function showToast(message, duration = 3000) {
   }, duration);
 }
 
-// Initialize Application
+// ==========================================================================
+// VIEW SWITCHER
+// ==========================================================================
+function switchView(viewName) {
+  currentView = viewName;
+
+  // Toggle sections
+  viewSections.forEach(sec => {
+    if (sec.id === `view-${viewName}`) {
+      sec.classList.add('active');
+    } else {
+      sec.classList.remove('active');
+    }
+  });
+
+  // Update navbar active states
+  navLinkButtons.forEach(btn => {
+    if (btn.dataset.view === viewName) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // Scroll to top smoothly
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Play subtle chime on view transition
+  if (viewName === 'sanctuary') {
+    soundscape.playChime(660);
+    showToast('🕯️ Bienvenido al Santuario del Altar');
+  } else if (viewName === 'oracle') {
+    soundscape.playChime(528);
+    showToast('🔮 En sintonía con el Oráculo del Espíritu');
+  }
+}
+
+// ==========================================================================
+// INITIALIZE APPLICATION
+// ==========================================================================
 function initApp() {
   // 1. Particle System
   petalSystem = new PetalSystem(canvas);
@@ -74,13 +140,18 @@ function initApp() {
   // 2. Altar Manager
   altarManager = new AltarManager(petalSystem);
 
-  // 3. Render Spirit Selectors
+  // 3. Render Spirit Selectors & Pioneers Gallery
   renderSpiritPills();
+  renderPioneersGallery();
 
-  // 4. Bind Candle Interactivity
+  // 4. Bind Navigation Buttons
+  bindNavigation();
+
+  // 5. Bind Candle & Offering Interactivity
   bindCandleClicks();
+  bindOfferingClicks();
 
-  // 5. Bind Audio Toggle
+  // 6. Bind Audio Toggle
   btnSoundscape.addEventListener('click', () => {
     const isPlaying = soundscape.toggle();
     if (isPlaying) {
@@ -92,21 +163,41 @@ function initApp() {
     }
   });
 
-  // 6. Scatter Marigold Petals
-  btnScatter.addEventListener('click', (e) => {
-    soundscape.playChime(720);
-    petalSystem.burstPetals(75, e.clientX, e.clientY);
-    showToast('🌼 Lluvia de cempasúchil esparcida para guiar a los espíritus');
+  // 7. Mood Atmosphere Pills
+  moodPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      moodPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      document.body.className = pill.dataset.theme;
+      soundscape.playChime(580);
+    });
   });
 
-  // 7. Light All Candles
+  // 8. Scatter Petals
+  if (btnScatterHero) {
+    btnScatterHero.addEventListener('click', (e) => {
+      soundscape.playChime(720);
+      petalSystem.burstPetals(75, e.clientX, e.clientY);
+      showToast('🌼 Lluvia de cempasúchil esparcida');
+    });
+  }
+
+  if (btnQuickScatter) {
+    btnQuickScatter.addEventListener('click', (e) => {
+      soundscape.playChime(720);
+      petalSystem.burstPetals(60, e.clientX, e.clientY);
+      showToast('🌼 Lluvia de flores doradas');
+    });
+  }
+
+  // 9. Light All Candles
   btnLightAll.addEventListener('click', () => {
     altarManager.lightAllCandles();
     updateCandleDOM();
     showToast('🕯️ Todas las veladoras están encendidas con devoción');
   });
 
-  // 8. Mode Tabs Switch
+  // 10. Oracle Mode Tabs
   tabButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       tabButtons.forEach(b => b.classList.remove('active'));
@@ -116,64 +207,109 @@ function initApp() {
     });
   });
 
-  // 9. AI Invoke Button
-  btnInvokeAi.addEventListener('click', () => {
-    triggerAIGeneration();
-  });
-
-  oracleUserPrompt.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
+  // 11. Quick Prompt Suggestion Chips
+  quickChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      oracleUserPrompt.value = chip.dataset.prompt;
+      activeMode = 'whisper';
+      tabButtons.forEach(b => b.classList.toggle('active', b.dataset.mode === 'whisper'));
       triggerAIGeneration();
-    }
-  });
-
-  // 10. Copy Output
-  btnCopyText.addEventListener('click', () => {
-    navigator.clipboard.writeText(oracleOutput.innerText).then(() => {
-      showToast('📋 Poesía copiada al portapapeles');
+      soundscape.playMarimba(520);
     });
   });
 
-  // 11. Custom Ancestor Modal
+  // 12. Oracle Invocation
+  btnInvokeAi.addEventListener('click', triggerAIGeneration);
+  oracleUserPrompt.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') triggerAIGeneration();
+  });
+
+  // 13. Copy Output
+  btnCopyText.addEventListener('click', () => {
+    navigator.clipboard.writeText(oracleOutput.innerText).then(() => {
+      showToast('📋 Versos copiados al portapapeles');
+    });
+  });
+
+  // 14. Ethereal Speech Recitation
+  btnSpeakText.addEventListener('click', () => {
+    if (soundscape.isSpeaking) {
+      soundscape.stopSpeaking();
+      btnSpeakText.classList.remove('speaking');
+      btnSpeakText.innerHTML = '🔊 Escuchar';
+    } else {
+      btnSpeakText.classList.add('speaking');
+      btnSpeakText.innerHTML = '⏹️ Detener';
+      soundscape.speakText(oracleOutput.innerText, () => {
+        btnSpeakText.classList.remove('speaking');
+        btnSpeakText.innerHTML = '🔊 Escuchar';
+      });
+      showToast('🗣️ Recitando versos sagrados');
+    }
+  });
+
+  // 15. Custom Ancestor Modal
   btnAddAncestor.addEventListener('click', () => {
     ancestorModal.classList.remove('hidden');
   });
-
-  btnCloseModal.addEventListener('click', () => {
-    ancestorModal.classList.add('hidden');
-  });
-
-  btnCancelModal.addEventListener('click', () => {
-    ancestorModal.classList.add('hidden');
-  });
-
+  btnCloseModal.addEventListener('click', () => ancestorModal.classList.add('hidden'));
+  btnCancelModal.addEventListener('click', () => ancestorModal.classList.add('hidden'));
   ancestorForm.addEventListener('submit', handleAddAncestorSubmit);
 
-  // 12. Bio Lore Modal
+  // 16. Bio Lore Modal
   btnViewStory.addEventListener('click', openBioModal);
-  btnCloseBio.addEventListener('click', () => {
-    bioModal.classList.add('hidden');
-  });
+  btnCloseBio.addEventListener('click', () => bioModal.classList.add('hidden'));
 
-  // 13. Snapshot Altar
+  // 17. Offering Lore Modal
+  btnCloseOffering.addEventListener('click', () => offeringModal.classList.add('hidden'));
+  btnCloseOfferingConfirm.addEventListener('click', () => offeringModal.classList.add('hidden'));
+
+  // 18. Snapshot Postcard
   btnSaveAltar.addEventListener('click', saveAltarSnapshot);
 
-  // 14. Continuous Copal Smoke Emitter
+  // 19. Copal Smoke Continuous Emitter
   initCopalSmokeEmitter();
 
-  // 15. Initial Generation for First Spirit
+  // 20. Initial Setup
   updateAltarDisplay();
   triggerAIGeneration();
 }
 
-// Copal Smoke continuous particle emitter
+// Bind Navigation
+function bindNavigation() {
+  navLinkButtons.forEach(btn => {
+    btn.addEventListener('click', () => switchView(btn.dataset.view));
+  });
+
+  footerNavLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchView(link.dataset.view);
+    });
+  });
+
+  brandLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchView('landing');
+  });
+
+  if (btnEnterAltar) btnEnterAltar.addEventListener('click', () => switchView('sanctuary'));
+  if (btnHeroLaunch) btnHeroLaunch.addEventListener('click', () => switchView('sanctuary'));
+  if (btnHeroOracle) btnHeroOracle.addEventListener('click', () => switchView('oracle'));
+  if (btnBannerEnter) btnBannerEnter.addEventListener('click', () => switchView('sanctuary'));
+  if (btnGotoPioneers) btnGotoPioneers.addEventListener('click', () => switchView('pioneers'));
+  if (btnAltarToOracle) btnAltarToOracle.addEventListener('click', () => switchView('oracle'));
+}
+
+// Continuous Copal Smoke Emitter
 function initCopalSmokeEmitter() {
   const copalEl = document.getElementById('copal-burner');
   setInterval(() => {
     if (!copalEl || !petalSystem) return;
+    if (currentView !== 'sanctuary') return;
     const rect = copalEl.getBoundingClientRect();
     petalSystem.addCopalSmoke(rect.left + rect.width / 2, rect.top + 10);
-  }, 350);
+  }, 320);
 }
 
 // Render Spirit Pills
@@ -202,9 +338,51 @@ function renderSpiritPills() {
   });
 }
 
-// Update Altar Centerpiece Display
+// Render Pioneers Gallery Cards
+function renderPioneersGallery() {
+  if (!pioneersGrid) return;
+  pioneersGrid.innerHTML = '';
+
+  PIONEER_SPIRITS.forEach(pioneer => {
+    const card = document.createElement('div');
+    card.className = 'pioneer-card';
+    card.innerHTML = `
+      <img src="${pioneer.image}" alt="${pioneer.name}" class="pioneer-img" />
+      <div class="pioneer-info">
+        <h3 class="pioneer-name">${pioneer.name}</h3>
+        <p class="pioneer-epithet">${pioneer.epithet}</p>
+        <span class="pioneer-years">${pioneer.years}</span>
+        <p class="pioneer-bio">${pioneer.legacy}</p>
+        <button class="btn-honor-pioneer" data-id="${pioneer.id}">
+          🏵️ Honrar en el Altar
+        </button>
+      </div>
+    `;
+
+    const btnHonor = card.querySelector('.btn-honor-pioneer');
+    btnHonor.addEventListener('click', () => {
+      altarManager.setSpirit(pioneer.id);
+      renderSpiritPills();
+      updateAltarDisplay();
+      triggerAIGeneration();
+      switchView('sanctuary');
+    });
+
+    pioneersGrid.appendChild(card);
+  });
+}
+
+// Update Altar Centerpiece Display with micro-animation
 function updateAltarDisplay() {
   const spirit = altarManager.currentSpirit;
+  const frame = document.getElementById('shrine-frame-el');
+  if (frame) {
+    frame.style.transform = 'scale(0.92) rotate(-2deg)';
+    setTimeout(() => {
+      frame.style.transform = '';
+    }, 250);
+  }
+
   currentSpiritPhoto.src = spirit.image;
   spiritNameEl.textContent = spirit.name;
   spiritEpithetEl.textContent = spirit.epithet;
@@ -231,6 +409,37 @@ function bindCandleClicks() {
   updateCandleDOM();
 }
 
+// Bind Offering Clicks to Lore Popups
+function bindOfferingClicks() {
+  const offeringCards = document.querySelectorAll('.offering-card');
+  offeringCards.forEach(card => {
+    const offeringId = card.dataset.offeringId;
+    if (!offeringId) return;
+
+    card.addEventListener('click', () => {
+      const lore = altarManager.interactOffering(offeringId, card);
+      if (lore) {
+        openOfferingLoreModal(lore);
+      }
+    });
+  });
+}
+
+function openOfferingLoreModal(lore) {
+  offeringLoreTitle.textContent = `🌺 ${lore.title}`;
+  offeringLoreSub.textContent = `${lore.subtitle} • (${lore.origin})`;
+  offeringLoreBody.innerHTML = `
+    <div style="background: rgba(255, 183, 3, 0.1); border-left: 3px solid var(--cempasuchil-gold); padding: 0.85rem; border-radius: 0 8px 8px 0; margin-bottom: 0.5rem;">
+      <h5 style="color: var(--cempasuchil-gold); margin-bottom: 0.3rem;">Simbolismo Ancestral:</h5>
+      <p style="font-size: 0.95rem; line-height: 1.6;">${lore.lore}</p>
+    </div>
+    <p style="font-size: 0.82rem; color: #cbd5e1; font-style: italic;">
+      "Al colocar esta ofrenda en el altar, nutres el alma en su visita anual y mantienes vivo el lazo sagrado entre vivos y difuntos."
+    </p>
+  `;
+  offeringModal.classList.remove('hidden');
+}
+
 // Update Candle DOM State
 function updateCandleDOM() {
   altarManager.candles.forEach(candle => {
@@ -250,6 +459,10 @@ function updateCandleDOM() {
 async function triggerAIGeneration() {
   if (isGenerating) return;
   isGenerating = true;
+
+  soundscape.stopSpeaking();
+  btnSpeakText.classList.remove('speaking');
+  btnSpeakText.innerHTML = '🔊 Escuchar';
 
   const spirit = altarManager.currentSpirit;
   const prompt = oracleUserPrompt.value;
@@ -304,6 +517,7 @@ function handleAddAncestorSubmit(e) {
 
     ancestorModal.classList.add('hidden');
     ancestorForm.reset();
+    switchView('sanctuary');
     showToast(`🌸 ${name} ahora reposa en el altar con nosotros`);
   };
 
@@ -324,7 +538,7 @@ function openBioModal() {
   bioTitle.textContent = `📜 ${spirit.name} — ${spirit.epithet}`;
   bioBody.innerHTML = `
     <div style="display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1rem;">
-      <img src="${spirit.image}" alt="${spirit.name}" style="width: 100px; height: 100px; border-radius: 12px; object-fit: cover; border: 2px solid var(--cempasuchil-gold);" />
+      <img src="${spirit.image}" alt="${spirit.name}" style="width: 105px; height: 105px; border-radius: 14px; object-fit: cover; border: 2px solid var(--cempasuchil-gold);" />
       <div>
         <h4 style="color: var(--cempasuchil-gold); margin-bottom: 0.25rem;">Años de Vida: ${spirit.years}</h4>
         <p style="font-style: italic; color: #cbd5e1;">"${spirit.quote}"</p>
@@ -342,7 +556,7 @@ function openBioModal() {
       <h5 style="color: #ffd166; margin-bottom: 0.25rem;">Ofrendas Tradicionales en su Altar:</h5>
       <p>${spirit.favoriteOfferings?.join(' • ') || 'Pan de muerto, flores de cempasúchil'}</p>
     </div>
-    <div style="margin-top: 0.75rem; background: rgba(255, 183, 3, 0.1); border-left: 3px solid var(--cempasuchil-gold); padding: 0.6rem;">
+    <div style="margin-top: 0.75rem; background: rgba(255, 183, 3, 0.1); border-left: 3px solid var(--cempasuchil-gold); padding: 0.7rem; border-radius: 0 8px 8px 0;">
       <h5 style="color: var(--cempasuchil-gold); margin-bottom: 0.2rem;">Susurro del Más Allá:</h5>
       <p style="font-family: var(--font-poetic);">${spirit.spiritWhisper}</p>
     </div>
@@ -350,94 +564,86 @@ function openBioModal() {
   bioModal.classList.remove('hidden');
 }
 
-// Save Altar Snapshot as Downloadable Keepsake
+// Save Altar Snapshot as High-Resolution Memorial Postcard
 function saveAltarSnapshot() {
   const spirit = altarManager.currentSpirit;
   const offCanvas = document.createElement('canvas');
-  offCanvas.width = 1000;
-  offCanvas.height = 1000;
+  offCanvas.width = 1200;
+  offCanvas.height = 1200;
   const ctx = offCanvas.getContext('2d');
 
-  // Background
-  const grad = ctx.createRadialGradient(500, 500, 50, 500, 500, 600);
-  grad.addColorStop(0, '#1c1328');
-  grad.addColorStop(1, '#07050a');
+  const grad = ctx.createRadialGradient(600, 600, 50, 600, 600, 750);
+  grad.addColorStop(0, '#241432');
+  grad.addColorStop(0.6, '#130a1c');
+  grad.addColorStop(1, '#050308');
   ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, 1000, 1000);
+  ctx.fillRect(0, 0, 1200, 1200);
 
-  // Decorative border
   ctx.strokeStyle = '#ffb703';
-  ctx.lineWidth = 6;
-  ctx.strokeRect(30, 30, 940, 940);
+  ctx.lineWidth = 8;
+  ctx.strokeRect(35, 35, 1130, 1130);
   ctx.strokeStyle = '#e63946';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(40, 40, 920, 920);
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(48, 48, 1104, 1104);
 
-  // Title
   ctx.fillStyle = '#ffd166';
-  ctx.font = 'bold 36px "Cinzel Decorative", serif, Georgia';
+  ctx.font = 'bold 44px "Cinzel Decorative", serif, Georgia';
   ctx.textAlign = 'center';
-  ctx.fillText('OFRENDA VIVA: RECUERDO ETERNO', 500, 90);
+  ctx.fillText('OFRENDA VIVA: MEMORIA ETERNA', 600, 115);
 
   ctx.fillStyle = '#ff9e1b';
-  ctx.font = '22px "Playfair Display", serif';
-  ctx.fillText(`En memoria de ${spirit.name} (${spirit.years})`, 500, 130);
+  ctx.font = '26px "Playfair Display", serif';
+  ctx.fillText(`En sagrado homenaje a ${spirit.name} (${spirit.years})`, 600, 165);
 
-  // Draw portrait image
   const img = new Image();
   img.crossOrigin = 'anonymous';
   img.src = spirit.image;
   img.onload = () => {
     ctx.save();
     ctx.beginPath();
-    ctx.arc(500, 320, 140, 0, Math.PI * 2);
+    ctx.arc(600, 390, 170, 0, Math.PI * 2);
     ctx.closePath();
     ctx.clip();
-    ctx.drawImage(img, 360, 180, 280, 280);
+    ctx.drawImage(img, 430, 220, 340, 340);
     ctx.restore();
 
-    // Gold circle ring around portrait
     ctx.beginPath();
-    ctx.arc(500, 320, 142, 0, Math.PI * 2);
+    ctx.arc(600, 390, 172, 0, Math.PI * 2);
     ctx.strokeStyle = '#ffb703';
-    ctx.lineWidth = 8;
+    ctx.lineWidth = 10;
     ctx.stroke();
 
-    // Verse snippet
     ctx.fillStyle = '#f8f9fa';
-    ctx.font = 'italic 20px "Playfair Display", serif';
-    ctx.fillText(`"${spirit.quote}"`, 500, 510);
+    ctx.font = 'italic 23px "Playfair Display", serif';
+    ctx.fillText(`"${spirit.quote}"`, 600, 620);
 
-    // Epitaph excerpt
     const lines = [
-      'Hay tres muertes:',
-      'La primera cuando cesa el cuerpo.',
-      'La segunda cuando nos entierran.',
+      'Hay tres muertes en este mundo:',
+      'La primera cuando cesa el cuerpo y el aliento.',
+      'La segunda cuando nos bajan a la tierra.',
       'Y la tercera cuando nadie pronuncia nuestro nombre.',
       '',
-      'Hoy tu nombre brilla con amor en el santuario digital.',
-      '100% Privado • Preservado con Inteligencia Artificial Abierta'
+      'Hoy tu memoria florece en el sendero dorado de cempasúchil.',
+      'Preservado 100% en Privacidad con Inteligencia Artificial Abierta.'
     ];
 
     ctx.fillStyle = '#fed7aa';
-    ctx.font = '18px "Playfair Display", serif';
-    let lineY = 570;
+    ctx.font = '20px "Playfair Display", serif';
+    let lineY = 690;
     lines.forEach(l => {
-      ctx.fillText(l, 500, lineY);
-      lineY += 34;
+      ctx.fillText(l, 600, lineY);
+      lineY += 40;
     });
 
-    // Signature
     ctx.fillStyle = '#94a3b8';
-    ctx.font = '14px "Outfit", sans-serif';
-    ctx.fillText('Creado con Ofrenda Viva • Día de los Muertos • Noviembre 2026', 500, 920);
+    ctx.font = '16px "Outfit", sans-serif';
+    ctx.fillText('Ofrenda Viva • Santuario de Código Abierto • Día de los Muertos 2026', 600, 1110);
 
-    // Download trigger
     const link = document.createElement('a');
-    link.download = `Ofrenda_Viva_${spirit.name.replace(/\s+/g, '_')}.png`;
+    link.download = `Ofrenda_Viva_${spirit.name.replace(/\s+/g, '_')}_Recuerdo.png`;
     link.href = offCanvas.toDataURL('image/png');
     link.click();
-    showToast('📸 Recuerdo fotográfico descargado con éxito');
+    showToast('📸 Postal conmemorativa descargada en alta resolución');
   };
 }
 
