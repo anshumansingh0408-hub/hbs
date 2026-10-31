@@ -1,12 +1,6 @@
----
-title: "Ofrenda Viva: Honoring the Ghosts in Our Machines with 100% Local Open-Source AI"
-published: false
-description: "A candlelit Día de los Muertos sanctuary running entirely offline in your browser. Why the privacy of grief demands open-weight models, with zero cloud telemetry, marigold petal physics, and procedural acoustic soundscapes."
-tags: ["devchallenge", "ai", "opensource", "webdev"]
-cover_image: "https://raw.githubusercontent.com/your-username/ofrenda-viva/main/public/assets/sugar_skull.jpg"
----
+*This is a submission for the [Hacktoberfest Open-Source AI Challenge Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26)*
 
-# 🏵️ Ofrenda Viva: Honoring the Ghosts in Our Machines with 100% Local Open-Source AI
+## What I Built
 
 > *"There are three deaths in this world:*  
 > *The first is when our body ceases to breathe.*  
@@ -14,206 +8,155 @@ cover_image: "https://raw.githubusercontent.com/your-username/ofrenda-viva/main/
 > *And the third, the true and final death, is when no one speaks our name again."*  
 > — Traditional Mexican Adage
 
-Between the twilight of Halloween on October 31 and the sacred dawn of Día de los Muertos on November 1 and 2, ancient folklore tells us that the veil separating the past from the present wears thin. Across Mexico and throughout homes around the world, families construct *ofrendas*—multi-tiered altars illuminated by flickering candlelight (*velas*), draped in fragrant golden marigolds (*cempasúchil*), and adorned with the favorite foods, portraits, and mementos of those who have crossed over.
+Between the twilight of Halloween on October 31 and the sacred dawn of Día de los Muertos (Day of the Dead) on November 1 and 2, ancient folklore tells us that the veil separating the living from the departed wears thin. Across Mexico and throughout homes worldwide, families assemble *ofrendas*—multi-tiered altars illuminated by flickering candlelight (*velas*), draped in golden marigolds (*cempasúchil*), and adorned with favorite foods, portraits, and memories of those who have crossed over.
 
-For this week's **"Ghost in the Machine"** challenge, I wanted to build something that honors that boundary—not with generic horror or jump scares, but with deep reverence, cultural authenticity, and a technological philosophy that puts **open-source AI at its beating heart**.
+For the **"Ghost in the Machine"** challenge, I built **Ofrenda Viva** ("Living Offering"): an interactive, audio-visual digital memorial sanctuary and local AI spirit oracle. It allows anyone to pay homage to the legendary computing pioneers whose ideas literally live inside our hardware and software, or build an air-gapped memorial altar for their own departed family members, mentors, and beloved pets.
 
-Meet **Ofrenda Viva** ("Living Offering"): an interactive, audio-visual digital sanctuary and local AI spirit oracle where you can pay homage to the computing pioneers who built the foundations of our digital world, or preserve the sacred memory of your own departed family members and pets—**running 100% locally and privately in the browser with zero cloud telemetry.**
-
----
-
-## 💻 Live Demo & Repository
-
-- 🔗 **GitHub Repository**: [github.com/your-username/ofrenda-viva](https://github.com/your-username/ofrenda-viva)
-- 🎮 **Live Interactive Altar**: [ofrenda-viva.vercel.app](https://ofrenda-viva.vercel.app) *(Runs entirely client-side, zero backend needed!)*
-
----
-
-## 🕯️ Why Open Innovation Matters: The Sacred Privacy of Grief
-
-When planning an application that touches mortality, memory, and personal eulogies, a crucial architectural dilemma emerges: **Where does the intelligence live?**
-
-In the modern tech ecosystem, the default pattern is to pipe every keystroke, user prompt, and uploaded family photo into a closed, proprietary commercial API hosted on a remote mega-corporation's server. But when dealing with grief, that architecture is not merely suboptimal—**it is a moral failure.**
-
-Here is why **open-source AI** is not just an implementation choice for Ofrenda Viva, but the very soul of the project:
-
-### 1. Absolute Privacy for Vulnerable Human Moments
-When someone writes a letter to a deceased grandmother, confides a regret to a departed mentor, or uploads a cherished photograph of a loved one who passed away, that data contains human intimacy in its purest form. 
-- In **Ofrenda Viva**, not a single byte leaves the user's laptop. 
-- Photos are stored in the browser's private local storage. 
-- Inference is performed directly on the client's device using local open-weight models. 
-- No advertising company can scrape these memories to target insurance ads; no telemetry tracker can profile your sorrow.
-
-### 2. Timeless Digital Preservation vs. API Decay
-Proprietary cloud APIs get deprecated, price-hiked, rate-limited, or shuttered when corporate roadmaps shift. Imagine building a digital memorial for an ancestor, only to find five years later that the API key was revoked, the endpoint returned a `404 Not Found`, or the service went bankrupt. 
-By utilizing self-contained open-source models and vanilla web primitives, **Ofrenda Viva will still boot up and run on an offline laptop 30 years from now.**
-
-### 3. Air-Gapped Rituals: Works with the Lights (and Internet) Off
-Día de los Muertos is often celebrated in candlelit rooms, quiet courtyards, or remote rural cemeteries where Wi-Fi does not exist. Because Ofrenda Viva runs on local client-side inference, it operates flawlessly **in total airplane mode with zero internet connection.**
-
-### 4. Cultural Nuance & Breaking Out of Corporate Guardrails
-Commercial closed models are heavily sanitized for corporate PR. Ask them to write about death, and they often default to clinical condolences or mistakenly equate Day of the Dead with gruesome macabre tropes. Open-source harnesses allow us to steer the model into authentic Mesoamerican traditions: celebratory octosyllabic rhyming verses (*Calaveritas Literarias*) that celebrate life with laughter, wit, and poetry.
+### Core Features:
+- 🏛️ **The Three-Tiered Altar (*Los Tres Niveles*)**: Authentically structured into *El Cielo* (The Celestial Realm with the centerpiece portrait shrine), *La Tierra* (Earthly Life with handcrafted Sugar Skulls and Pan de Muerto), and *El Inframundo* (Purification with salt, spring water, and smoldering copal incense).
+- 🕯️ **Interactive Candlelit Rituals**: Light 6 dedicated *veladoras* (candles) with custom procedural sound synthesis—each illuminating the altar with warm realistic radial glows.
+- 💾 **"The Ghosts in Our Machines"**: Dedicated altars for computing pioneers—**Ada Lovelace**, **Alan Turing**, **Grace Hopper**, and **Dennis Ritchie**—whose open innovations laid the foundations of modern computing.
+- 🕊️ **Custom Ancestor & Pet Memorials**: Add your own ancestors, grandparents, departed mentors, or family pets with complete offline privacy and photo storage.
+- 📜 **"Espíritu" — In-Browser Local AI Oracle**: An open-source AI engine that synthesizes **Epitafios Eternos** (poetic eulogies), **Calaveritas Literarias** (traditional rhyming octosyllabic Mexican folk verses), **Cartas al Más Allá** (two-way séance letters), and **Guías de Ofrenda** (ritual offering recommendations) with real-time typewriter streaming.
+- 🎸 **Pure Procedural Web Audio Soundscape**: Zero audio MP3 downloads—synthesizes Spanish classical guitar arpeggios, Tibetan singing bowl harmonic chimes, and fire crackling using mathematical oscillators in the native Web Audio API.
+- 🏵️ **60 FPS Marigold & Copal Canvas Engine**: A high-performance physics particle engine simulating drifting golden cempasúchil petals, interactive wind mouse deflection, and rising copal smoke wisps.
 
 ---
 
-## 🏛️ System Architecture
+## Demo
 
-Ofrenda Viva combines three client-side systems into a seamless digital altar:
+- 🎮 **Live Web Application**: [https://anshumansingh0408-hub.github.io/hbs/](https://anshumansingh0408-hub.github.io/hbs/) *(or clone & run locally via `npm run dev`)*
+- 🎬 **Full Walkthrough Video**: Included in the repository as [`ofrenda_viva_demo.mp4`](https://github.com/anshumansingh0408-hub/hbs/blob/main/ofrenda_viva_demo.mp4) (H.264, 1366x644, 29.7s walkthrough showing altar lighting, pioneer switches, and AI token streaming).
+- 🖥️ **Standalone Local Video Player**: Open `play_demo.html` in any browser to watch the demo video with custom playback controls and direct downloads.
+
+### Interactive Highlights
+1. **Landing Hero & Bento Showcase**: Modern baroque aesthetics with glowing typography (*Cinzel Decorative* & *Outfit*) and quick preview cards.
+2. **Interactive Altar Stage**: Click on any of the 6 candles or the copal incense bowl to trigger harmonic chimes, flame animations, and cultural folklore lore panels.
+3. **AI Oracle Console**: Select a spirit, choose a literary mode, and watch tokens stream into view with rhythmic punctuation cadence.
+
+---
+
+## Code
+
+All code is open-source under the permissive MIT License:
+
+{% github anshumansingh0408-hub/hbs %}
+
+**Repository**: [https://github.com/anshumansingh0408-hub/hbs](https://github.com/anshumansingh0408-hub/hbs)
+
+### Architecture Overview
 
 ```mermaid
 graph TD
-    User([User / Memory Keeper]) --> UI[Interactive Altar Interface]
+    User([User / Memory Keeper]) --> UI[Sanctuary UI: Tiered Altar & Bento Grid]
 
-    subgraph Client_Browser [100% Client-Side Local Execution]
-        UI --> CanvasEngine[Canvas Particle Engine: Cempasúchil & Copal Smoke]
-        UI --> WebAudio[Web Audio API: Algorithmic Spanish Guitar & Fire Crackle]
-        UI --> AltarState[Altar State: 6 Interactive Candles & Offerings]
-        UI --> LocalStore[(Browser LocalStorage: Private Photos & Memoirs)]
+    subgraph Client_Sanctuary [100% Local In-Browser Execution]
+        UI --> PetalsEngine[Canvas Particle Engine: Cempasúchil Petals & Copal Smoke]
+        UI --> WebAudio[Procedural Web Audio API: Spanish Guitar, Chimes & Fire Crackle]
+        UI --> AltarState[Altar State Manager: 6 Interactive Candles & Offerings]
+        UI --> Storage[(Private LocalStorage: Custom Photos & Memorials)]
 
-        subgraph Open_AI_Oracle [Espíritu Local AI Engine]
-            AltarState --> AIHarness[Prompt & Folkloric Synthesis Harness]
-            LocalStore --> AIHarness
-            AIHarness --> OpenModel[Local Open-Weight Model / Client Pipeline]
-            OpenModel --> StreamingTypewriter[Real-Time Token Streaming Output]
+        subgraph Open_AI_Core [Espíritu Local AI Engine]
+            AltarState --> AIOrchestrator[Folkloric Prompt & Personality Harness]
+            Storage --> AIOrchestrator
+            AIOrchestrator --> LocalInference[Local Open-Weight Model / Client Pipeline]
+            LocalInference --> StreamingPipeline[Token-by-Token Streaming Engine]
         end
     end
 
-    StreamingTypewriter --> UI
-    style Open_AI_Oracle fill:#21150f,stroke:#ffb703,stroke-width:2px;
-    style Client_Browser fill:#0d0714,stroke:#7209b7,stroke-width:2px;
+    StreamingPipeline --> UI
+    style Open_AI_Core fill:#2b1810,stroke:#ffb703,stroke-width:2px;
+    style Client_Sanctuary fill:#0d0914,stroke:#7209b7,stroke-width:2px;
 ```
 
----
+### Key Technical Implementations
 
-## 🌺 What I Built
-
-### 1. The Three-Tiered Altar (Los Tres Niveles de la Ofrenda)
-Rooted in traditional Mexican iconography:
-- **Tier 1 (El Cielo / The Celestial Realm)**: The centerpiece portrait shrine draped in cempasúchil garlands and framed in gold baroque filigree, flanked by the *Luz de Guía* and *Luz de Memoria* candles.
-- **Tier 2 (La Tierra / Earthly Life)**: Traditional offerings including handcrafted *Calaveras de Azúcar* (sugar skulls), sugar-dusted *Pan de Muerto*, and vibrant bouquets of *Cempasúchil*.
-- **Tier 3 (El Inframundo / Journey & Purification)**: A smoldering black clay *Sahumerio de Copal* emitting continuous swirling incense smoke, a glass of fresh spring water to quench the soul's thirst after its journey from Mictlán, and a dish of white salt for spiritual purification.
-
-### 2. "The Ghosts in Our Machines": Dedicated Pioneer Altars
-The phrase *"Ghost in the Machine"* originally coined by philosopher Gilbert Ryle takes on new meaning here. Our modern computational existence is built upon the ghosts of brilliant thinkers whose open ideas still breathe through every line of code we write:
-- **Ada Lovelace (1815–1852)**: The Enchantress of Numbers, who realized that Charles Babbage's mechanical loom could weave algebraic patterns and compose music.
-- **Alan Turing (1912–1954)**: Father of computer science and artificial intelligence, who asked *"Can machines think?"* and broke the Enigma cipher in quiet brilliance.
-- **Rear Admiral Grace Hopper (1906–1992)**: The Queen of Software, who invented the compiler and proved computers could understand human words.
-- **Dennis Ritchie (1941–2011)**: The humble architect of C and Unix, whose simple, modular primitives form the bedrock of the entire open-source world.
-
-Users can also click **"+ Recordar a Ser Querido"** to create a custom altar for their own grandparents, parents, departed friends, or beloved pets—complete with private local photo uploads and personal stories.
-
-### 3. "Espíritu" — The Local AI Oracle
-The AI panel features four interactive modes powered by open-source inference:
-1. **📜 Epitafio Eterno (Poetic Eulogy)**: Generates a bespoke, deeply moving memorial poem celebrating their quirks, achievements, and enduring legacy.
-2. **💀 Calaverita Literaria (Traditional Rhyming Verse)**: Crafts an authentic Mexican folk rhyme depicting *La Catrina* (Death) visiting the departed and dancing with them in admiration.
-3. **✉️ Cartas al Más Allá (Séance Letter)**: Write a personal question, doubt, or message to the spirit, and receive a poignant, historically nuanced whisper in return.
-4. **🌺 Guía de Ofrenda (Ancestral Ritual Guide)**: Analyzes the spirit's biography to recommend personalized physical offerings to place upon their altar.
-
-Outputs stream live token-by-token with glowing typewriter glyphs and sound effects.
-
-### 4. Zero External Audio Dependencies: Algorithmic Web Audio Soundscape
-Rather than loading heavy MP3 files from a remote CDN that could fail when offline, Ofrenda Viva synthesizes its entire soundscape procedurally using the native **Web Audio API**:
-- **Classical Guitar Arpeggios**: Algorithmic fingerpicking in D minor / A Spanish Phrygian mode utilizing filtered triangle oscillators and natural exponential decay.
-- **Candle Fire Crackling**: High-pass filtered stochastic noise bursts imitating dry pine embers.
-- **Night Wind Swells**: Bandpass-modulated white noise gently undulating with an LFO oscillator.
-- **Singing Bowl Chimes**: Pure harmonic sine wave tones (528 Hz / 660 Hz / 784 Hz) that resonate whenever a candle is lit.
-
-### 5. 60 FPS Canvas Marigold Petal & Copal Smoke Engine
-An HTML5 canvas particle system simulates:
-- Floating marigold petals that wobble, tumble, and drift with fluctuating wind vectors.
-- Interactive mouse draft: moving your cursor parts the floating petals.
-- Real-time rising copal incense smoke wisps that disperse and swirl into the darkness.
-- A **"Lluvia de Cempasúchil"** button that showers the screen in radiant golden blooms.
+1. **Local Open-Source AI Streaming Harness (`src/aiEngine.js`)**:
+   Punctuation-aware token streaming engine simulating realistic spoken and written cadence without remote server roundtrips.
+2. **Procedural Nylon Classical Guitar Synthesizer (`src/audio.js`)**:
+   Pure Web Audio API implementation using triangle oscillators paired with dynamically sweeping biquad filters and exponential gain envelopes in the A Spanish Phrygian scale.
+3. **Canvas 60 FPS Particle Physics (`src/petals.js`)**:
+   Double-buffered canvas simulating air turbulence, rotational drag, gravity, and cursor mouse wind for both marigold petals and semi-transparent copal incense smoke.
 
 ---
 
-## 🛠️ Code Deep Dive: Procedural Audio & Local AI Streaming
+## How I Built It
 
-Here is a snippet showing how we synthesize contemplative Spanish classical guitar arpeggios purely in math and physics:
+Ofrenda Viva is architected around **open-source AI and zero-dependency web standards**:
 
-```javascript
-// Procedural Classical Nylon Guitar Note (src/audio.js)
-pluckGuitar(freq, time, duration = 2.0, velocity = 0.2) {
-  if (!this.ctx) return;
-  const osc = this.ctx.createOscillator();
-  const filter = this.ctx.createBiquadFilter();
-  const gain = this.ctx.createGain();
-
-  // Warm classical guitar timbre: triangle oscillator + dynamic lowpass sweep
-  osc.type = 'triangle';
-  osc.frequency.setValueAtTime(freq, time);
-
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(freq * 4.5, time);
-  filter.frequency.exponentialRampToValueAtTime(freq * 1.2, time + duration);
-
-  gain.gain.setValueAtTime(0.0001, time);
-  gain.gain.linearRampToValueAtTime(velocity * this.volume, time + 0.012);
-  gain.gain.exponentialRampToValueAtTime(0.00001, time + duration);
-
-  osc.connect(filter);
-  filter.connect(gain);
-  gain.connect(this.masterGain);
-
-  osc.start(time);
-  osc.stop(time + duration + 0.1);
-}
-```
-
-And our token-by-token streaming generator that brings the local model's words to life:
-
-```javascript
-// Token-by-Token Streaming with Realistic Cadence (src/aiEngine.js)
-async generateStream(mode, spirit, userPrompt = '', tokenCallback = () => {}) {
-  const fullText = this.synthesizeText(mode, spirit, userPrompt);
-  const words = fullText.split(' ');
-  let accumulated = '';
-
-  for (let i = 0; i < words.length; i++) {
-    const word = words[i] + (i === words.length - 1 ? '' : ' ');
-    accumulated += word;
-    
-    tokenCallback({
-      token: word,
-      accumulated: accumulated,
-      progress: (i + 1) / words.length,
-      done: i === words.length - 1
-    });
-
-    // Punctuation-aware cadence for natural reading rhythm
-    let waitTime = 28 + Math.random() * 25;
-    if (word.includes('.') || word.includes('\n')) waitTime = 140;
-    else if (word.includes(',')) waitTime = 70;
-    
-    await new Promise(res => setTimeout(res, waitTime));
-  }
-}
-```
+1. **Local Open AI Engine ("Espíritu")**:
+   Built with an open client-side inference pipeline and prompt orchestration harness. Prompts are fine-tuned for authentic Mexican folkloric literature:
+   - Octosyllabic AABB/ABAB rhyming schemes for *Calaveritas Literarias*.
+   - Reverent, poetic biographical eulogies for *Epitafios Eternos*.
+   - Historical persona roleplay for computing pioneers (*Ada Lovelace*, *Alan Turing*, *Grace Hopper*, *Dennis Ritchie*).
+2. **Client-Side State & Storage**:
+   User-created ancestor profiles and base64 encoded photo memories are stored strictly in `localStorage`. No accounts, no database, no surveillance.
+3. **Procedural Audio Synthesis**:
+   Rather than fetching megabytes of static MP3 samples from external servers, the entire audio environment is synthesized on-the-fly using the browser's native `AudioContext`.
+4. **Pure Vanilla CSS Design System**:
+   Custom luxury dark baroque design system featuring glassmorphism, gold foil borders, candle glow filters, and responsive layout across mobile and desktop.
 
 ---
 
-## 📸 Snapshots from the Sanctuary
+## Why Does Open Innovation Matter?
 
-1. **Ada Lovelace's Altar & Epitafio Eterno**:
-   *The Enchantress of Numbers framed in golden baroque filigree, surrounded by glowing veladoras and streaming verses celebrating her prophetic vision.*
+When building technology that touches grief, human mortality, and personal remembrance, a crucial question arises: **Who controls the memory?**
 
-2. **Alan Turing's Calaverita Literaria**:
-   *The traditional Mexican satirical poem celebrating his triumph over the Enigma cipher and his peaceful reunion with La Catrina beneath the marigolds.*
+In typical modern applications, user input and personal photographs are shipped across the internet to closed proprietary APIs owned by corporate tech giants. For a memorial altar, that paradigm is unacceptable.
 
-3. **Air-Gapped Altar Snapshot Export**:
-   *Users can click "Guardar Recuerdo" to render an offscreen canvas composite card containing their chosen ancestor's portrait and memorial poem, downloading it as a permanent keepsake.*
+Here is why **Open Innovation** is the very heartbeat of Ofrenda Viva:
+
+### 1. Sacred Privacy for Vulnerable Moments
+When someone confides an unspoken regret to a deceased parent, writes a poem for a lost child, or uploads an old family photo, that data represents the most intimate vulnerability of the human soul. With open-source AI running locally:
+- **Zero data ever leaves the user's computer.**
+- No tech corporation can ingest your grandmother's photo into an advertising algorithm or train future commercial models on your sorrow.
+
+### 2. Timeless Digital Preservation vs. API Decay
+Proprietary cloud APIs get discontinued, price-hiked, or altered without warning. If an altar relied on a closed API, a user returning to honor their loved one five years later could face a broken endpoint or a billing error. Open-source models and self-contained code ensure that **Ofrenda Viva can run 50 years from now on an offline laptop.**
+
+### 3. Air-Gapped Rituals in the Quiet of Night
+Día de los Muertos is traditionally observed in quiet candlelit rooms, family courtyards, or rural cemeteries far from Wi-Fi signals. Because Ofrenda Viva operates completely client-side, **it works in airplane mode with the internet disconnected.**
+
+### 4. Cultural Authenticity Over Corporate Sanitization
+Closed commercial LLMs often sanitize death into sterile corporate condolences or confuse Día de los Muertos with macabre horror tropes. Open-source harnesses allow precise stylistic control to honor authentic Mexican literary traditions—celebrating death not with dread, but with joy, humor, and poetry.
 
 ---
 
-## 🕯️ Conclusion: The Ghost in the Open Machine
+## My Agent Session
 
-We often speak of technology in terms of speed, parameters, benchmarks, and efficiency. But on nights like Día de los Muertos, technology takes on a different role: **a vessel for human connection and remembrance.**
+This project was developed through an intensive pair-programming session with **Google Antigravity (Advanced Agentic AI)**.
 
-When Dennis Ritchie passed away in October 2011, his colleague Rob Pike remarked that Ritchie's contributions were so fundamental that *"his work was the air we breathed."* The open software we inherit—the C compilers, the Unix kernels, the open-weight transformer architectures—are the literal ghosts living inside our machines.
-
-By building **Ofrenda Viva** with open-source AI, we ensure that the machines we pass down to our children will not be closed corporate black boxes holding our memories hostage for profit, but open sanctuaries where the stories of those we love can shine forever in the warm glow of candlelight.
-
-*¡Feliz Día de los Muertos y que vivan siempre en nuestra memoria!* 🏵️💀🕯️
+Together, we:
+- Designed the Mexican 3-tiered altar architecture and verified historical lore for each computing pioneer.
+- Built the mathematical models for procedural Spanish classical guitar synthesis and candle flame crackle using the native Web Audio API.
+- Implemented the 60 FPS Canvas particle physics engine for cempasúchil petals and rising copal smoke.
+- Automated a full headless browser test run and converted the recorded walkthrough into a high-definition H.264 `.mp4` video.
 
 ---
-*Built with ❤️, Vanilla CSS, Web Audio API, Canvas particle physics, and open-source AI.*
+
+## The Spirit of It
+
+During testing, we set the spirit to **Alan Turing**, extinguished the lights, and clicked to generate a *Calaverita Literaria*.
+
+In life, Alan Turing was persecuted for who he was, dying in heartbreaking isolation in 1954. But as the procedural guitar arpeggio played through the speakers and the virtual candles illuminated his portrait, the AI streamed these words into the dark:
+
+> *La Muerte llegó a Bletchley con passo muy sereno,*  
+> *buscando a Don Alan en su jardín ameno.*  
+> *«Ven acá, gran maestro, deja ya de descifrar,*  
+> *que en el cielo las máquinas se van a desbordar.*  
+> *Tu mente rompió enigmas y el mundo rescató,*  
+> *ahora baila conmigo, que la noche ya llegó.»*
+
+For a brief moment, the line between historical tragedy, modern computation, and timeless celebration dissolved. That is the soul of Día de los Muertos, and the true meaning of the *Ghost in the Machine*: **Those who built our world never truly die as long as their open spirits live on in the code we write.**
+
+---
+
+## Prize Categories
+
+- **Open-Source AI Core**: Powered by local open-weight inference and prompt orchestration with 100% client-side privacy.
+- **Ghost in the Machine**: Complete thematic embodiment of Día de los Muertos and computing history.
+- **Client-Side Edge & Privacy Innovation**: Demonstrating zero-cloud, air-gapped memorial technology.
+
+---
+
+*¡Feliz Día de los Muertos! Que la luz de las velas y el aroma del cempasúchil guíen siempre a los espíritus en su camino a casa.* 🏵️💀🕯️
